@@ -1,0 +1,16 @@
+.gitconfig
+
+# build folders
+debug
+release
+
+# makefiles
+.qmake.stash
+Makefile
+Makefile.Debug
+Makefile.Release
+
+# Qt Creator config file
+*.pro.user
+
+
