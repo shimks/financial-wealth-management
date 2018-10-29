@@ -6,11 +6,15 @@ release
 
 # makefiles
 .qmake.stash
+object_script.*.Release
+object_script.*.Debug
 Makefile
 Makefile.Debug
 Makefile.Release
 
+# Qt unit tests
+target_wrapper.*
+
 # Qt Creator config file
 *.pro.user
-
 

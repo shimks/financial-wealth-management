@@ -27,13 +27,11 @@ CONFIG += c++11
 SOURCES += \
     src\main.cpp \
     src\mainwindow.cpp \
-    src\tabbar.cpp \
-    src\tabwidget.cpp
+    src/sidebartabstyle.cpp
 
 HEADERS += \
     src\mainwindow.h \
-    src\tabbar.h \
-    src\tabwidget.h
+    src/sidebartabstyle.h
 
 FORMS +=
 
