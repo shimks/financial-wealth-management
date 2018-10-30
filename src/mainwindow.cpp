@@ -1,14 +1,16 @@
 #include "mainwindow.h"
-#include "tabwidget.h"
+#include "sidebartabstyle.h"
+#include <QtWidgets>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    QWidget *centralWidget = new QWidget(this);
-    setCentralWidget(centralWidget);
-    TabWidget *tabs = new TabWidget(centralWidget);
+    QTabWidget *tabs = new QTabWidget;
+    tabs->setTabPosition(QTabWidget::West);
+    tabs->tabBar()->setStyle(new SidebarTabStyle);
     tabs->addTab(new QWidget, "Net Worth Tracker");
     tabs->addTab(new QWidget, "Budget Tracker");
+    setCentralWidget(tabs);
 }
 
 MainWindow::~MainWindow() {}
