@@ -12,6 +12,7 @@
 
 # Qt unit tests
 **/target_wrapper.*
+**/ui*.h
 
 # Qt Creator config file
 *.pro.user

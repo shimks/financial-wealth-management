@@ -19,12 +19,20 @@ SOURCES += \
     $$PWD/src/mainwindow.cpp \
     $$PWD/src/sidebartabstyle.cpp \
     $$PWD/src/networthtab.cpp \
-    $$PWD/src/stock.cpp
+    $$PWD/src/stock.cpp \
+    $$PWD/src/adddialog.cpp \
+    $$PWD/src/popup_window.cpp \
+    $$PWD/src/budgettrackertab.cpp
 
 HEADERS += \
     $$PWD/src/mainwindow.h \
     $$PWD/src/sidebartabstyle.h \
     $$PWD/src/networthtab.h \
-    $$PWD/src/stock.h
+    $$PWD/src/stock.h \
+    $$PWD/src/adddialog.h \
+    $$PWD/src/popup_window.h \
+    $$PWD/src/budgettrackertab.h
 
-FORMS +=
+FORMS += \
+	$$PWD/src/adddialog.ui \
+	$$PWD/src/popup_window.ui
