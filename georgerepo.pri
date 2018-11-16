@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,10 +17,14 @@ CONFIG += c++11
 
 SOURCES += \
     $$PWD/src/mainwindow.cpp \
-    $$PWD/src/sidebartabstyle.cpp
+    $$PWD/src/sidebartabstyle.cpp \
+    $$PWD/src/networthtab.cpp \
+    $$PWD/src/stock.cpp
 
 HEADERS += \
     $$PWD/src/mainwindow.h \
-    $$PWD/src/sidebartabstyle.h
+    $$PWD/src/sidebartabstyle.h \
+    $$PWD/src/networthtab.h \
+    $$PWD/src/stock.h
 
 FORMS +=

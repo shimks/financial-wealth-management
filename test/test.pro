@@ -8,7 +8,7 @@ TEMPLATE = app
 
 SOURCES += \
     main.cpp \
-    example-testcase.cpp
+    teststock.cpp
 
 HEADERS += \
-    example-testcase.h
+    teststock.h

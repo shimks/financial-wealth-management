@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "sidebartabstyle.h"
+#include "networthtab.h"
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -8,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QTabWidget *tabs = new QTabWidget;
     tabs->setTabPosition(QTabWidget::West);
     tabs->tabBar()->setStyle(new SidebarTabStyle);
-    tabs->addTab(new QWidget, "Net Worth Tracker");
+    tabs->addTab(new NetWorthTab, "Net Worth Tracker");
     tabs->addTab(new QWidget, "Budget Tracker");
     setCentralWidget(tabs);
 }
