@@ -2,7 +2,9 @@
 #define ADDDIALOG_H
 
 #include <QDialog>
-
+#include <QtCore>
+#include <QtGui>
+#include <QTreeWidgetItem>
 namespace Ui {
 class AddDialog;
 }
@@ -15,6 +17,7 @@ public:
     explicit AddDialog(QWidget *parent = nullptr);
     ~AddDialog();
     QString returnVal();
+    QString returnAmo();
 
 private slots:
 
@@ -27,6 +30,7 @@ private:
     Ui::AddDialog *ui;
 
     QString categroy;
+    QString amount;
 };
 
 #endif // ADDDIALOG_H

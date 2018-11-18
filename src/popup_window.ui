@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>208</height>
+    <width>447</width>
+    <height>307</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>351</width>
-      <height>181</height>
+      <width>451</width>
+      <height>281</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -28,12 +28,12 @@
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Manage Budget Items</string>
      </attribute>
      <widget class="QPushButton" name="Add">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>320</x>
         <y>70</y>
         <width>101</width>
         <height>31</height>
@@ -46,7 +46,7 @@
      <widget class="QPushButton" name="Show">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>320</x>
         <y>30</y>
         <width>101</width>
         <height>31</height>
@@ -56,14 +56,53 @@
        <string>Show</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit">
+     <widget class="QTreeWidget" name="treeWidget">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>30</y>
-        <width>104</width>
-        <height>64</height>
+        <x>0</x>
+        <y>10</y>
+        <width>301</width>
+        <height>171</height>
        </rect>
+      </property>
+      <property name="columnCount">
+       <number>2</number>
+      </property>
+      <column>
+       <property name="text">
+        <string notr="true">Category</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Amount</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>110</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>150</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Edit</string>
       </property>
      </widget>
     </widget>
@@ -79,7 +118,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>348</width>
+     <width>447</width>
      <height>17</height>
     </rect>
    </property>
