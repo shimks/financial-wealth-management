@@ -9,6 +9,7 @@ QSize TabBar::tabSizeHint(int index) const {
     return s;
 }
 
+// used to flip the sidebar texts
 void TabBar::paintEvent(QPaintEvent *) {
     QStylePainter painter(this);
     QStyleOptionTab opt;
