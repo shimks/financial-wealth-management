@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 include(../georgerepo.pri)
-
+QT       += sql
 TARGET = src
 TEMPLATE = app
 
