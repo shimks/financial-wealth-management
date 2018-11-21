@@ -16,6 +16,8 @@ public:
     QTreeWidget *stockTree;
 
     QPushButton *addStockBtn;
+    QPushButton *editStockBtn;
+    QPushButton *delStockBtn;
 
     void findStock(const std::string &stockName);
 
@@ -30,18 +32,21 @@ private:
 
     void createStockTable();
     QNetworkRequest setupNetworkRequest(const std::string &stockName);
+    QString getIdOfItem(const QTreeWidgetItem*);
 
 private slots:
     void onSearch();
     void onFindStockResponse(QNetworkReply*);
     void onAddStock();
-    void onAddStockNetworkResponse(QNetworkReply*);
+    void onMyStockNetworkResponse(QNetworkReply*);
+    void onEditStock();
+    void onDelStock();
 };
 
 class StockDialog : public QDialog {
     Q_OBJECT
 public:
-    StockDialog(QWidget *parent = nullptr);
+    StockDialog(Stock *parent = nullptr, bool isEdit = false);
 
     QLineEdit *name;
     QLineEdit *quantity;
