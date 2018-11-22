@@ -16,3 +16,6 @@
 
 # Qt Creator config file
 *.pro.user
+
+# Database files
+**/*.db

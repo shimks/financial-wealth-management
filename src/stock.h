@@ -2,6 +2,7 @@
 #define STOCK_H
 
 #include <string>
+#include <vector>
 #include <QtWidgets>
 #include <QtNetwork/QNetworkAccessManager>
 
@@ -12,6 +13,11 @@ public:
 
     QLineEdit *stockSearchBar;
     QLabel *searchedStockPrice;
+    QTreeWidget *stockTree;
+
+    QPushButton *addStockBtn;
+    QPushButton *editStockBtn;
+    QPushButton *delStockBtn;
 
     void findStock(const std::string &stockName);
 
@@ -20,13 +26,33 @@ signals:
     void stockNotFound();
 
 private:
-    QNetworkAccessManager *manager;
-    QNetworkRequest request;
-    std::string ALPHA_VANTAGE_API_KEY;
+    QStringList columnNames;
+    QNetworkAccessManager *stockSearchManager;
+    QNetworkAccessManager *currentlyOwnedStockSearchManager;
+
+    void createStockTable();
+    QNetworkRequest setupNetworkRequest(const std::string &stockName);
+    QString getIdOfItem(const QTreeWidgetItem*);
 
 private slots:
     void onSearch();
-    void onFindStockResponse(QNetworkReply *reply);
+    void onFindStockResponse(QNetworkReply*);
+    void onAddStock();
+    void onMyStockNetworkResponse(QNetworkReply*);
+    void onEditStock();
+    void onDelStock();
+};
+
+class StockDialog : public QDialog {
+    Q_OBJECT
+public:
+    StockDialog(Stock *parent = nullptr, bool isEdit = false);
+
+    QLineEdit *name;
+    QLineEdit *quantity;
+    QLineEdit *purchasePrice;
+
+    QStringList returnDialogValues();
 };
 
 #endif // STOCK_H
