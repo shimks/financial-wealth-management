@@ -20,7 +20,6 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     ui->setupUi(this);
     ui->treeWidget->setColumnCount(2);
 
-    ui->lineEdit_4->setReadOnly(true);
 }
 
 BudgetTarget::~BudgetTarget()
@@ -28,12 +27,6 @@ BudgetTarget::~BudgetTarget()
     delete ui;
 }
 
-void BudgetTarget::on_pushButton_4_clicked()
-{
-   addExpense expense;
-   expense.setModal(true);
-   expense.exec();
-}
 
 void BudgetTarget::on_Add_clicked()
 {

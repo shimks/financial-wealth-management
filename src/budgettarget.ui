@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1008</width>
-    <height>590</height>
+    <width>903</width>
+    <height>519</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,11 +29,11 @@
        <widget class="QLabel" name="mainLabel">
         <property name="font">
          <font>
-          <pointsize>20</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>    BUDGETING</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -56,62 +56,6 @@
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4"/>
-         </widget>
-         <widget class="QWidget" name="horizontalLayoutWidget">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>411</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>15</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Target Savings Goal:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_4"/>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_5">
-             <property name="text">
-              <string>PushButton</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QPushButton" name="pushButton_4">
-          <property name="geometry">
-           <rect>
-            <x>440</x>
-            <y>10</y>
-            <width>114</width>
-            <height>32</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Add expense</string>
-          </property>
          </widget>
          <widget class="QLabel" name="label_6">
           <property name="geometry">
@@ -149,80 +93,59 @@
            <string>Expense Distribution</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="Delete">
-          <property name="geometry">
-           <rect>
-            <x>330</x>
-            <y>150</y>
-            <width>101</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Delete</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="Show">
-          <property name="geometry">
-           <rect>
-            <x>330</x>
-            <y>70</y>
-            <width>101</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Show</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="Add">
-          <property name="geometry">
-           <rect>
-            <x>330</x>
-            <y>110</y>
-            <width>101</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Add</string>
-          </property>
-         </widget>
-         <widget class="QTreeWidget" name="treeWidget">
+         <widget class="QWidget" name="">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>50</y>
-            <width>301</width>
-            <height>171</height>
+            <y>10</y>
+            <width>451</width>
+            <height>194</height>
            </rect>
           </property>
-          <property name="columnCount">
-           <number>2</number>
-          </property>
-          <column>
-           <property name="text">
-            <string notr="true">Category</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Amount</string>
-           </property>
-          </column>
-         </widget>
-         <widget class="QPushButton" name="Edit">
-          <property name="geometry">
-           <rect>
-            <x>330</x>
-            <y>190</y>
-            <width>101</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Edit</string>
-          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QTreeWidget" name="treeWidget">
+             <property name="columnCount">
+              <number>2</number>
+             </property>
+             <column>
+              <property name="text">
+               <string notr="true">Category</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Amount</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QPushButton" name="Add">
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Delete">
+               <property name="text">
+                <string>Delete</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Edit">
+               <property name="text">
+                <string>Edit</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_3">
