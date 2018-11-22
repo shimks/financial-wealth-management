@@ -19,3 +19,4 @@
 
 # Database files
 **/*.db
+.DS_Store

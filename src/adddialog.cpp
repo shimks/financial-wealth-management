@@ -1,5 +1,6 @@
 #include "adddialog.h"
 #include "ui_adddialog.h"
+#include <QMessageBox>
 
 
 
@@ -19,8 +20,11 @@ AddDialog::~AddDialog()
 
 void AddDialog::on_pushButton_clicked()
 {
-    AddDialog::categroy = ui->textEdit->toPlainText();
+    AddDialog::category = ui->textEdit->toPlainText();
     AddDialog::amount = ui->textEdit_2->toPlainText();
+    if(category==nullptr or amount==nullptr){
+        QMessageBox::information(this, tr("Error"),tr("Invalid Input"));
+    }
     AddDialog::close();
 
 
@@ -29,7 +33,7 @@ void AddDialog::on_pushButton_clicked()
 
 
 QString AddDialog::returnVal(){
-    return AddDialog::categroy;
+    return AddDialog::category;
 
 }
 

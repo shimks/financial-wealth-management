@@ -3,6 +3,7 @@
 #include "networthtab.h"
 #include "budgettrackertab.h"
 #include <QtWidgets>
+#include "budgettarget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
