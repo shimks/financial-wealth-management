@@ -49,8 +49,8 @@
          <widget class="QWidget" name="verticalLayoutWidget_4">
           <property name="geometry">
            <rect>
-            <x>740</x>
-            <y>40</y>
+            <x>790</x>
+            <y>30</y>
             <width>221</width>
             <height>391</height>
            </rect>
@@ -60,8 +60,8 @@
          <widget class="QLabel" name="label_6">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>230</y>
+            <x>240</x>
+            <y>440</y>
             <width>251</width>
             <height>21</height>
            </rect>
@@ -78,7 +78,7 @@
          <widget class="QLabel" name="label_7">
           <property name="geometry">
            <rect>
-            <x>740</x>
+            <x>810</x>
             <y>10</y>
             <width>221</width>
             <height>20</height>
@@ -93,55 +93,102 @@
            <string>Expense Distribution</string>
           </property>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>10</y>
-            <width>451</width>
-            <height>194</height>
+            <y>0</y>
+            <width>521</width>
+            <height>398</height>
            </rect>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <widget class="QTreeWidget" name="treeWidget">
-             <property name="columnCount">
-              <number>2</number>
-             </property>
-             <column>
-              <property name="text">
-               <string notr="true">Category</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Amount</string>
-              </property>
-             </column>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QTreeWidget" name="treeWidget">
+                   <property name="columnCount">
+                    <number>3</number>
+                   </property>
+                   <column>
+                    <property name="text">
+                     <string notr="true">Category</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Amount</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Remaining</string>
+                    </property>
+                   </column>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <item>
+                  <widget class="QPushButton" name="Edit">
+                   <property name="text">
+                    <string>Edit Budget Item</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QPushButton" name="Add">
-               <property name="text">
-                <string>Add</string>
+              <widget class="QTreeWidget" name="treeWidget_2">
+               <property name="columnCount">
+                <number>3</number>
                </property>
+               <column>
+                <property name="text">
+                 <string>Category</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Amount</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Day</string>
+                </property>
+               </column>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Delete">
-               <property name="text">
-                <string>Delete</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="Edit">
-               <property name="text">
-                <string>Edit</string>
-               </property>
-              </widget>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <widget class="QPushButton" name="AddE">
+                 <property name="text">
+                  <string>Log Expense</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="DeleteE">
+                 <property name="text">
+                  <string>Delete Expense</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </item>

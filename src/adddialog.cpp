@@ -9,6 +9,7 @@ AddDialog::AddDialog(QWidget *parent) :
     ui(new Ui::AddDialog)
 {
     ui->setupUi(this);
+    //ui->textEdit_2->setText(label);
 
 }
 
@@ -20,9 +21,9 @@ AddDialog::~AddDialog()
 
 void AddDialog::on_pushButton_clicked()
 {
-    AddDialog::category = ui->textEdit->toPlainText();
+    //AddDialog::category = ui->textEdit->toPlainText();
     AddDialog::amount = ui->textEdit_2->toPlainText();
-    if(category==nullptr or amount==nullptr){
+    if(amount==nullptr){
         QMessageBox::information(this, tr("Error"),tr("Invalid Input"));
     }
     AddDialog::close();
@@ -31,8 +32,8 @@ void AddDialog::on_pushButton_clicked()
 }
 
 
-
 QString AddDialog::returnVal(){
+
     return AddDialog::category;
 
 }

@@ -21,10 +21,10 @@ SOURCES += \
     $$PWD/src/networthtab.cpp \
     $$PWD/src/stock.cpp \
     $$PWD/src/adddialog.cpp \
-    $$PWD/src/popup_window.cpp \
     $$PWD/src/budgettrackertab.cpp \
     $$PWD/src/budgettarget.cpp \
-    $$PWD/src/addexpense.cpp
+    $$PWD/src/addexpense.cpp \
+    $$PWD/src/popup_window.cpp
 
 HEADERS += \
     $$PWD/src/mainwindow.h \
