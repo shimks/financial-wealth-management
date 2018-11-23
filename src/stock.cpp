@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include <QtNetwork>
 #include <QtSql>
+#include <QtCharts>
 #include <QDebug>
 #include "stock.h"
 
@@ -15,17 +16,23 @@ Stock::Stock(QWidget *parent) : QGroupBox(tr("Your Stocks"), parent) {
 
     stockSearchManager = new QNetworkAccessManager;
     currentlyOwnedStockSearchManager = new QNetworkAccessManager;
+    stockChartManager = new QNetworkAccessManager;
 
-    columnNames = QStringList({"Name", "Quantity", "Purchase Price", "Price"});
+    columnNames = QStringList({"Name", "Quantity", "Purchase Price", "Price", "Total Value"});
     stockSearchBar = new QLineEdit;
     searchedStockPrice = new QLabel;
     addStockBtn = new QPushButton("Add", this);
     editStockBtn = new QPushButton("Edit", this);
     delStockBtn = new QPushButton("Delete", this);
+    totalStock = new QLabel;
     createStockTable();
+    createStockChart();
+    calculateStockTotal();
 
     mainLayout->addLayout(stockSearchLayout);
     mainLayout->addLayout(stockTableLayout);
+    mainLayout->addWidget(totalStock);
+    mainLayout->addWidget(stockChartView);
     stockSearchLayout->addWidget(stockSearchBar);
     stockSearchLayout->addWidget(searchedStockPrice, QSizePolicy::Maximum);
     stockTableLayout->addWidget(stockTree, QSizePolicy::Maximum);
@@ -45,12 +52,16 @@ Stock::Stock(QWidget *parent) : QGroupBox(tr("Your Stocks"), parent) {
             this, &Stock::onFindStockResponse);
     connect(currentlyOwnedStockSearchManager, &QNetworkAccessManager::finished,
             this, &Stock::onMyStockNetworkResponse);
+    connect(stockChartManager, &QNetworkAccessManager::finished,
+            this, &Stock::onStockChartResponse);
     connect(addStockBtn, &QPushButton::clicked,
             this, &Stock::onAddStock);
     connect(editStockBtn, &QPushButton::clicked,
             this, &Stock::onEditStock);
     connect(delStockBtn, &QPushButton::clicked,
             this, &Stock::onDelStock);
+    connect(stockTree, &QTreeWidget::currentItemChanged,
+            this, &Stock::buildStockChart);
 }
 
 // finds the price for symbol put in the search bar
@@ -96,7 +107,47 @@ void Stock::onFindStockResponse(QNetworkReply *reply) {
 void Stock::onMyStockNetworkResponse(QNetworkReply *reply) {
     QString response = tr(reply->readAll());
     // NOTE: no error checking is done here atm
-    stockTree->currentItem()->setText(columnNames.size() - 1, response);
+    double quantity = stockTree->currentItem()->data(1, Qt::DisplayRole).toDouble();
+    stockTree->currentItem()->setText(3, response); // set to currentPrice
+    stockTree->currentItem()->setText(4, QString::number(response.toDouble() * quantity));
+    // not very robust; the total can only be updated after a network call
+    calculateStockTotal();
+}
+
+void Stock::onStockChartResponse(QNetworkReply *reply) {
+    QByteArray response = reply->readAll();
+    qDebug() << response << endl;
+    if (tr(response) != tr("Unknown symbol")) {
+        QJsonDocument doc = QJsonDocument::fromJson(response);
+        QJsonArray array = doc.array();
+        double max(10);
+        double min(array.first().toObject()["close"].toDouble());
+        stockLine->clear();
+        for (QJsonValueRef obj : array) {
+            QJsonObject json = obj.toObject();
+            QString date = json["date"].toString();
+            double price = json["close"].toDouble();
+
+            QDateTime dateTime;
+            QStringList dateValues = date.split(tr("-"));
+            dateTime.setDate(QDate(dateValues[0].toInt(), dateValues[1].toInt(), dateValues[2].toInt()));
+
+            max = (max > price) ? max : price;
+            min = (min < price) ? min : price;
+
+            qDebug() << dateTime.toMSecsSinceEpoch() << " " << price << endl;
+            stockLine->append(dateTime.toMSecsSinceEpoch(), price);
+        }
+        QStringList firstDayValue = array.first().toObject()["date"].toString().split("-");
+        QStringList lastDayValue = array.last().toObject()["date"].toString().split("-");
+        axisX->setMax(QDateTime(QDate(lastDayValue[0].toInt(), lastDayValue[1].toInt(), lastDayValue[2].toInt())));
+        axisX->setMin(QDateTime(QDate(firstDayValue[0].toInt(), firstDayValue[1].toInt(), firstDayValue[2].toInt())));
+        axisY->setMax(max);
+        axisY->setMin(min);
+        stockChart->setTitle(tr("Closing values of ") + stockTree->currentItem()->data(0, Qt::DisplayRole).toString()
+                             + " over the last month");
+        stockChartView->show();
+    }
 }
 
 void Stock::createStockTable() {
@@ -135,6 +186,36 @@ void Stock::createStockTable() {
     }
 }
 
+void Stock::createStockChart() {
+    stockChart = new QChart;
+    stockChartView = new QChartView;
+    stockLine = new QLineSeries;
+
+    stockChart->addSeries(stockLine);
+    stockChart->legend()->hide();
+
+    axisX = new QDateTimeAxis;
+    axisX->setTickCount(10);
+    axisX->setFormat("MMM d");
+    axisX->setTitleText("Date");
+    stockChart->setAxisX(axisX, stockLine);
+
+    axisY = new QValueAxis;
+    axisY->setLabelFormat("%f");
+    axisY->setTitleText("Closing price");
+    stockChart->setAxisY(axisY, stockLine);
+
+    stockChart->setAnimationOptions(QChart::AllAnimations);
+    stockChartView->setChart(stockChart);
+    stockChartView->setRenderHint(QPainter::Antialiasing);
+
+    stockChartView->hide();
+
+    if (stockTree->currentItem() != nullptr) {
+        buildStockChart(stockTree->currentItem(), nullptr);
+    }
+}
+
 void Stock::onAddStock() {
     StockDialog dialog(this);
     dialog.exec();
@@ -160,46 +241,86 @@ void Stock::onAddStock() {
 }
 
 void Stock::onEditStock() {
-    StockDialog dialog(this, true);
-    dialog.exec();
-    if (dialog.result() == QDialog::Accepted) {
-        QTreeWidgetItem *current = stockTree->currentItem();
-        QString id = getIdOfItem(current);
+    if (stockTree->currentItem() == nullptr) {
+        QMessageBox::warning(this, tr("No Stock"), tr("No stocks exist!"));
+    } else {
+        StockDialog dialog(this, true);
+        dialog.exec();
+        if (dialog.result() == QDialog::Accepted) {
+            QTreeWidgetItem *current = stockTree->currentItem();
+            QString id = getIdOfItem(current);
 
 
-        QStringList listOfValues(dialog.returnDialogValues());
+            QStringList listOfValues(dialog.returnDialogValues());
 
-        for (int i = 0; i < listOfValues.length(); i++) {
-            stockTree->currentItem()->setData(i, Qt::DisplayRole, listOfValues[i]);
+            for (int i = 0; i < listOfValues.length(); i++) {
+                stockTree->currentItem()->setData(i, Qt::DisplayRole, listOfValues[i]);
+            }
+
+            QSqlQuery query;
+            // NOTE: this query is not very scalable atm
+            QString insertCmd = tr("UPDATE stock SET ")
+                    + "name = '" + listOfValues[0] + "', "
+                    + "quantity = " + listOfValues[1] + ", "
+                    + "purchasePrice = " + listOfValues[2] +
+                    + " WHERE id = " + id;
+            query.exec(insertCmd);
+            qDebug() << insertCmd << endl;
+            qDebug() << query.lastError() << endl;
+
+            QNetworkRequest req = setupNetworkRequest(listOfValues[0].toStdString());
+            currentlyOwnedStockSearchManager->get(req);
         }
-
-        QSqlQuery query;
-        // NOTE: this query is not very scalable atm
-        QString insertCmd = tr("UPDATE stock SET ")
-                + "name = '" + listOfValues[0] + "', "
-                + "quantity = " + listOfValues[1] + ", "
-                + "purchasePrice = " + listOfValues[2] +
-                + " WHERE id = " + id;
-        query.exec(insertCmd);
-        qDebug() << insertCmd << endl;
-        qDebug() << query.lastError() << endl;
     }
 }
 
 void Stock::onDelStock() {
-    QMessageBox::StandardButton reply = QMessageBox::question(this, tr("Deleting a Stock"),
-                          "Are you sure you want to delete this stock?");
-    if (reply == QMessageBox::Yes) {
-        QTreeWidgetItem *current = stockTree->currentItem();
-        QString id = getIdOfItem(current);
+    if (stockTree->currentItem() == nullptr) {
+        QMessageBox::warning(this, tr("No Stock"), tr("No stocks exist!"));
+    } else {
+        QMessageBox::StandardButton reply = QMessageBox::question(this, tr("Deleting a Stock"),
+                              "Are you sure you want to delete this stock?");
+        if (reply == QMessageBox::Yes) {
+            QTreeWidgetItem *current = stockTree->currentItem();
+            QString id = getIdOfItem(current);
 
-        delete current;
+            delete current;
 
-        QSqlQuery query;
-        QString deleteCmd = tr("DELETE FROM stock WHERE id = ") + id;
-        query.exec(deleteCmd);
-        qDebug() << query.lastError() << endl;
+            QSqlQuery query;
+            QString deleteCmd = tr("DELETE FROM stock WHERE id = ") + id;
+            query.exec(deleteCmd);
+            qDebug() << query.lastError() << endl;
+        }
     }
+}
+
+void Stock::buildStockChart(QTreeWidgetItem *current, QTreeWidgetItem *prev) {
+    if (current == nullptr) {
+        return;
+    }
+    QString symbol = current->data(0, Qt::DisplayRole).toString();
+
+    QString priceEndpoint("https://api.iextrading.com/1.0/stock/");
+    QString url;
+    url = priceEndpoint + symbol + "/chart";
+    QSslConfiguration SslConfig = QSslConfiguration::defaultConfiguration();
+    SslConfig.setProtocol(QSsl::TlsV1SslV3);
+
+    QNetworkRequest request;
+    request.setSslConfiguration(SslConfig);
+    request.setUrl(QUrl(url));
+
+    stockChartManager->get(request);
+}
+
+void Stock::calculateStockTotal() {
+    QTreeWidgetItemIterator iter(stockTree);
+    double total(0);
+    while (*iter) {
+        total += (*iter)->text(4).toDouble();
+        ++iter;
+    }
+    totalStock->setText(tr("Total value of portfolio: ") + QString::number(total));
 }
 
 QString Stock::getIdOfItem(const QTreeWidgetItem *item) {
