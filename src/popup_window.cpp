@@ -33,7 +33,7 @@ void popup_window::on_Show_clicked()
 }
 
 void popup_window::on_Add_clicked()
-{
+{/*
     AddDialog adddialog;
     adddialog.setModal(true);
     adddialog.exec();
@@ -44,7 +44,7 @@ void popup_window::on_Add_clicked()
     if(cate!=0){
         AddRoot(cate, amount);
     }
-    //qDebug() << ui->treeWidget-> << endl;
+    //qDebug() << ui->treeWidget-> << endl;*/
 }
 
 
@@ -57,27 +57,27 @@ void popup_window::AddRoot(QString Category, QString Amount)
 }
 
 void popup_window::EditRoot(int index, QString Category, QString Amount)
-{
+{/*
 
     ui->treeWidget->currentItem()->setData(0,Qt::DisplayRole,Category);
     ui->treeWidget->currentItem()->setData(1,Qt::DisplayRole,Amount);
     cateList[index] = Category;
     amountList[index] = Amount.toInt();
-    //qDebug() << index << endl;
+    //qDebug() << index << endl;*/
 }
 
 
 void popup_window::on_pushButton_clicked()
 {
-
+/*
     QModelIndex index = ui->treeWidget->currentIndex();
     ui->treeWidget->takeTopLevelItem(index.row());
     amountList.removeAt(index.row());
-    cateList.removeAt(index.row());
+    cateList.removeAt(index.row());*/
 }
 
 void popup_window::on_pushButton_2_clicked()
-{
+{/*
     AddDialog adddialog1;
     adddialog1.setModal(true);
     adddialog1.exec();
@@ -91,5 +91,5 @@ void popup_window::on_pushButton_2_clicked()
         EditRoot(index.row(),cate, amount);
     }
 
-
+*/
 }

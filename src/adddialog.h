@@ -29,7 +29,7 @@ private slots:
 private:
     Ui::AddDialog *ui;
 
-    QString categroy;
+    QString category;
     QString amount;
 };
 
