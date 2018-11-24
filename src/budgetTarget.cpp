@@ -9,19 +9,94 @@
 #include "addexpensey.h"
 #include <QFile>
 #include <QTextStream>
-#include <QTreeWidget>
+#include <QtWidgets>
 #include <QtCore>
 #include <QtGui>
-#include <iostream>
 #include <QDebug>
+#include <QtCharts>
+#include <algorithm>
 
+using namespace std;
+
+QT_CHARTS_USE_NAMESPACE
+
+// BudgetTarget constructor
 BudgetTarget::BudgetTarget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::BudgetTarget)
 {
+    // set up ui
     ui->setupUi(this);
+
+    // create two tree widgets to hold budget item information
     ui->treeWidget->setColumnCount(3);
     ui->treeWidget_2->setColumnCount(3);
+
+    // create an array of the expenses for each day
+    int expenses[] = {monExpenses, tuesExpenses, wedExpenses, thursExpenses, friExpenses, satExpenses, sunExpenses};
+
+    // find the maximum expense value and use this to change the range of the chart
+    int maxVal = monExpenses;
+    for (int i = 1; i < 7; i++) {
+        if (expenses[i] > expenses[i-1])
+            maxVal = expenses[i];
+    }
+
+    // add the days of the week to the QBatSet
+    *daysOfWeek << monExpenses << tuesExpenses << wedExpenses << thursExpenses << friExpenses << satExpenses << sunExpenses;
+
+    // create a QBarSeries and add the days of the week
+    QBarSeries *barseries = new QBarSeries();
+    barseries->append(daysOfWeek);
+
+    // add points for the line chart to the plot
+    lineseries->setName("Weekly Expense Trend");
+    lineseries->append(QPoint(0, monExpenses));
+    lineseries->append(QPoint(1, tuesExpenses));
+    lineseries->append(QPoint(2, wedExpenses));
+    lineseries->append(QPoint(3, thursExpenses));
+    lineseries->append(QPoint(4, friExpenses));
+    lineseries->append(QPoint(5, satExpenses));
+
+    // create chart, add data and a title
+    QChart *chart = new QChart();
+    chart->addSeries(barseries);
+    chart->addSeries(lineseries);
+    chart->setTitle("Line and Bar Chart of Weekly Expenses");
+
+    // add categories for each of the bars
+    QStringList categories;
+    categories << "Mon" << "Tues" << "Wed" << "Thurs" << "Fri" << "Sat" << "Sun";
+
+    // create and format x-axis with categories
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->setAxisX(axisX, lineseries);
+    chart->setAxisX(axisX, barseries);
+    axisX->setRange(QString("Mon"), QString("Sat"));
+    axisX->setTitleText("Day of the Week");
+
+    // create and format y-axis
+    QValueAxis *axisY = new QValueAxis();
+    chart->setAxisY(axisY, lineseries);
+    chart->setAxisY(axisY, barseries);
+    axisY->setRange(0, maxVal + 100);
+    axisY->setTitleText("Exepensed Amount ($)");
+
+    // add a legend to the plot
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+
+    // create a widget view of the chart and resize accoringly
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setFixedSize(10000, 7000);
+
+    // add the chart to the layout
+    ui->verticalLayout_5->setMargin(0);
+    ui->verticalLayout_5->addWidget(chartView);
+
+    // add budgeting categories for weekly timeline
     AddRoot("Groceries","0");
     AddRoot("Hygiene Products","0");
     AddRoot("Transportation","0");
@@ -29,6 +104,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     AddRoot("Food","0");
     AddRoot("School Supplies","0");
 
+    // add budgeting categories for a monthly timeline
     AddRoot_2("Phone Bill","0");
     AddRoot_2("Utility Bill","0");
     AddRoot_2("Rent/Leas/Morgage","0");
@@ -36,6 +112,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     AddRoot_2("Credit Expenses","0");
     AddRoot_2("Savings","0");
 
+    // add budgeting categories for a yearly timeline
     AddRoot_3("Life Insurance","0");
     AddRoot_3("Car Insurnce","0");
     AddRoot_3("Health Insurance","0");
@@ -45,79 +122,79 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     AddRoot_3("Student Loans","0");
     AddRoot_3("Tuition Fee","0");
 
-    cateList<<"Groceries";
-    cateList<<"Hyginen Products";
-    cateList<<"Transportation";
-    cateList<<"Personal";
-    cateList<<"Food";
-    cateList<<"School Supplies";
+    // append weekly categories
+    cateList << "Groceries";
+    cateList << "Hyginen Products";
+    cateList << "Transportation";
+    cateList << "Personal";
+    cateList << "Food";
+    cateList << "School Supplies";
 
-    cateListM<<"Phone Bill";
-    cateListM<<"Utility Bill";
-    cateListM<<"Rent/Lease/Loan";
-    cateListM<<"Car Lease/Loan";
-    cateListM<<"Credit Expenses";
-    cateListM<<"Savings";
+    // append monthly categories
+    cateListM << "Phone Bill";
+    cateListM << "Utility Bill";
+    cateListM << "Rent/Lease/Loan";
+    cateListM << "Car Lease/Loan";
+    cateListM << "Credit Expenses";
+    cateListM << "Savings";
 
-    dayList<<"Monday";
-    dayList<<"Tuesday";
-    dayList<<"Wednesday";
-    dayList<<"Thursday";
-    dayList<<"Friday";
-    dayList<<"Saturday";
-    dayList<<"Sunday";
+    // append days of the week
+    dayList << "Monday";
+    dayList << "Tuesday";
+    dayList << "Wednesday";
+    dayList << "Thursday";
+    dayList << "Friday";
+    dayList << "Saturday";
+    dayList << "Sunday";
 
-    cateListY<<"Life Insurance";
-    cateListY<<"Car Insurance";
-    cateListY<<"Health Insurance";
-    cateListY<<"Gifts";
-    cateListY<<"Clothing";
-    cateListY<<"Home/Renovations";
-    cateListY<<"Student Loans";
-    cateListY<<"Tuition Fee";
+    // append yearly categories
+    cateListY << "Life Insurance";
+    cateListY << "Car Insurance";
+    cateListY << "Health Insurance";
+    cateListY << "Gifts";
+    cateListY << "Clothing";
+    cateListY << "Home/Renovations";
+    cateListY << "Student Loans";
+    cateListY << "Tuition Fee";
 
-    dayListY<<"January";
-    dayListY<<"February";
-    dayListY<<"March";
-    dayListY<<"April";
-    dayListY<<"May";
-    dayListY<<"June";
-    dayListY<<"July";
-    dayListY<<"August";
-    dayListY<<"September";
-    dayListY<<"October";
-    dayListY<<"November";
-    dayListY<<"December";
-
-
-
-
+    // append months of the year
+    dayListY << "January";
+    dayListY << "February";
+    dayListY << "March";
+    dayListY << "April";
+    dayListY << "May";
+    dayListY << "June";
+    dayListY << "July";
+    dayListY << "August";
+    dayListY << "September";
+    dayListY << "October";
+    dayListY << "November";
+    dayListY << "December";
 }
 
-BudgetTarget::~BudgetTarget()
-{
+// BudgetTarget destructor
+BudgetTarget::~BudgetTarget() {
     delete ui;
 }
 
 
-void BudgetTarget::AddRoot(QString Category, QString Amount)
-{
+void BudgetTarget::AddRoot(QString Category, QString Amount) {
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget);
     itm->setText(0,Category);
     itm->setText(1,Amount);
     itm->setText(2,Amount);
     ui->treeWidget->addTopLevelItem(itm);
 }
-void BudgetTarget::AddRoot_2(QString Category, QString Amount)
-{
+
+void BudgetTarget::AddRoot_2(QString Category, QString Amount) {
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget_3);
     itm->setText(0,Category);
     itm->setText(1,Amount);
     itm->setText(2,Amount);
     ui->treeWidget_3->addTopLevelItem(itm);
 }
-void BudgetTarget::AddRoot_3(QString Category, QString Amount)
-{
+
+void BudgetTarget::AddRoot_3(QString Category, QString Amount) {
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget_6);
     itm->setText(0,Category);
     itm->setText(1,Amount);
@@ -125,32 +202,34 @@ void BudgetTarget::AddRoot_3(QString Category, QString Amount)
     ui->treeWidget_7->addTopLevelItem(itm);
 }
 
-void BudgetTarget::AddExpense(QString Category, QString Amount, QString Day)
-{
+// adding weekly expenses
+void BudgetTarget::AddExpense(QString Category, QString Amount, QString Day) {
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget_2);
     itm->setText(0,Category);
     itm->setText(1,Amount);
     itm->setText(2,Day);
     ui->treeWidget_2->addTopLevelItem(itm);
 }
-void BudgetTarget::AddExpense_2(QString Category, QString Amount, QString Day)
-{
+
+// adding monthly expenses
+void BudgetTarget::AddExpense_2(QString Category, QString Amount, QString Day) {
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget_4);
     itm->setText(0,Category);
     itm->setText(1,Amount);
     itm->setText(2,Day);
     ui->treeWidget_4->addTopLevelItem(itm);
 }
-void BudgetTarget::AddExpense_3(QString Category, QString Amount, QString Day)
-{
+
+// adding yearly expenses
+void BudgetTarget::AddExpense_3(QString Category, QString Amount, QString Day) {
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget_7);
     itm->setText(0,Category);
     itm->setText(1,Amount);
     itm->setText(2,Day);
     ui->treeWidget_7->addTopLevelItem(itm);
 }
-void BudgetTarget::EditRoot(QString Amount)
-{
+
+void BudgetTarget::EditRoot(QString Amount) {
     QString before = ui->treeWidget->currentItem()->text(1);
     QString before2 = ui->treeWidget->currentItem()->text(2);
     int diff = Amount.toInt()-before.toInt();
@@ -158,8 +237,8 @@ void BudgetTarget::EditRoot(QString Amount)
     ui->treeWidget->currentItem()->setData(1,Qt::DisplayRole,Amount);
     ui->treeWidget->currentItem()->setData(2,Qt::DisplayRole, update);
 }
-void BudgetTarget::EditRoot_2(QString Amount)
-{
+
+void BudgetTarget::EditRoot_2(QString Amount) {
     QString before = ui->treeWidget_3->currentItem()->text(1);
     QString before2 = ui->treeWidget_3->currentItem()->text(2);
     int diff = Amount.toInt()-before.toInt();
@@ -167,8 +246,8 @@ void BudgetTarget::EditRoot_2(QString Amount)
     ui->treeWidget_3->currentItem()->setData(1,Qt::DisplayRole,Amount);
     ui->treeWidget_3->currentItem()->setData(2,Qt::DisplayRole, update);
 }
-void BudgetTarget::EditRoot_3(QString Amount)
-{
+
+void BudgetTarget::EditRoot_3(QString Amount) {
     QString before = ui->treeWidget_6->currentItem()->text(1);
     QString before2 = ui->treeWidget_6->currentItem()->text(2);
     int diff = Amount.toInt()-before.toInt();
@@ -176,8 +255,8 @@ void BudgetTarget::EditRoot_3(QString Amount)
     ui->treeWidget_6->currentItem()->setData(1,Qt::DisplayRole,Amount);
     ui->treeWidget_6->currentItem()->setData(2,Qt::DisplayRole, update);
 }
-void BudgetTarget::on_Edit_clicked()
-{
+
+void BudgetTarget::on_Edit_clicked() {
     if(ui->treeWidget->currentItem()!=nullptr){
         AddDialog adddialog1;
         adddialog1.setModal(true);
@@ -188,8 +267,8 @@ void BudgetTarget::on_Edit_clicked()
         }
     }
 }
-void BudgetTarget::on_Edit_2_clicked()
-{
+
+void BudgetTarget::on_Edit_2_clicked() {
     if(ui->treeWidget_3->currentItem()!=nullptr){
         AddDialog adddialog1;
         adddialog1.setModal(true);
@@ -214,7 +293,8 @@ void BudgetTarget::on_Edit_4_clicked()
     }
 }
 
-void BudgetTarget::on_AddE_clicked(){
+// weekly
+void BudgetTarget::on_AddE_clicked() {
     addExpense addexpense;
     addexpense.setModal(true);
     addexpense.exec();
@@ -222,13 +302,42 @@ void BudgetTarget::on_AddE_clicked(){
     QString amount = addexpense.returnAmo();
     QString day = dayList[addexpense.returnDay()];
     if(amount!=nullptr){
-        AddExpense_3(cate, amount,day);
+        AddExpense(cate, amount,day);
         QString before = ui->treeWidget->topLevelItem(addexpense.returnVal())->text(2);
         int update = before.toInt()-amount.toInt();
         ui->treeWidget->topLevelItem(addexpense.returnVal())->setData(2,Qt::DisplayRole,update);
     }
+    // convert the string to an int and add it to the corresponding date
+    int amountInt = amount.toInt();
+    int selectedIndex = addexpense.returnDay();
+    switch(selectedIndex) {
+        case 0 : monExpenses += amountInt;
+        break;
+        case 1 : tuesExpenses += amountInt;
+        break;
+        case 2 : wedExpenses += amountInt;
+        break;
+        case 3 : thursExpenses += amountInt;
+        break;
+        case 4 : friExpenses += amountInt;
+        break;
+        case 5 : satExpenses += amountInt;
+        break;
+        case 6 : sunExpenses += amountInt;
+        break;
+        default : break;
+    }
+    lineseries->clear();
+    lineseries->append(QPoint(0, monExpenses));
+    lineseries->append(QPoint(1, tuesExpenses));
+    lineseries->append(QPoint(2, wedExpenses));
+    lineseries->append(QPoint(3, thursExpenses));
+    lineseries->append(QPoint(4, friExpenses));
+    lineseries->append(QPoint(5, satExpenses));
+    *daysOfWeek << monExpenses << tuesExpenses << wedExpenses << thursExpenses << friExpenses << satExpenses << sunExpenses;
 }
 
+// monthly
 void BudgetTarget::on_AddE_2_clicked(){
     addExpenseM addexpense;
     addexpense.setModal(true);
@@ -244,6 +353,7 @@ void BudgetTarget::on_AddE_2_clicked(){
     }
 }
 
+// yearly
 void BudgetTarget::on_AddE_3_clicked(){
     addExpenseY addexpense;
     addexpense.setModal(true);
@@ -270,7 +380,6 @@ void BudgetTarget::on_DeleteE_clicked(){
     ui->treeWidget->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
     ui->treeWidget_2->takeTopLevelItem(index.row());
     }
-
 }
 
 void BudgetTarget::on_DeleteE_2_clicked(){
@@ -297,5 +406,4 @@ void BudgetTarget::on_DeleteE_3_clicked(){
     ui->treeWidget_6->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
     ui->treeWidget_7->takeTopLevelItem(index.row());
     }
-
 }

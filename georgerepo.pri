@@ -46,5 +46,5 @@ FORMS += \
         $$PWD/src/popup_window.ui \
         $$PWD/src/budgettarget.ui \
         $$PWD/src/addexpense.ui \
-    $$PWD/src/addexpensem.ui \
-    $$PWD/src/addexpensey.ui
+        $$PWD/src/addexpensem.ui \
+        $$PWD/src/addexpensey.ui

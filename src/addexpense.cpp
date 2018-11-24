@@ -38,6 +38,7 @@ void addExpense::on_pushButton_clicked()
     else{
         addExpense::close();
     }
+
 }
 
 void addExpense::on_pushButton_2_clicked()
