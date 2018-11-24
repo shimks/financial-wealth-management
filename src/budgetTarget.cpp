@@ -32,24 +32,33 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     ui->treeWidget->setColumnCount(3);
     ui->treeWidget_2->setColumnCount(3);
 
-    // create an array of the expenses for each day
-    int expenses[] = {monExpenses, tuesExpenses, wedExpenses, thursExpenses, friExpenses, satExpenses, sunExpenses};
+    // create arrays of the expenses for each day and month
+    int weeklyExpenses[] = {monExpenses, tuesExpenses, wedExpenses, thursExpenses, friExpenses, satExpenses, sunExpenses};
+    int monthlyExpenses[] = {janExp, febExp, marExp, aprExp, mayExp, junExp, julExp, augExp, septExp, octExp, novExp, decExp};
 
-    // find the maximum expense value and use this to change the range of the chart
-    int maxVal = monExpenses;
+    // find the maximum weekly expense value and use this to change the range of the weekly line/bar chart
+    int maxWeeklyVal = monExpenses;
     for (int i = 1; i < 7; i++) {
-        if (expenses[i] > expenses[i-1])
-            maxVal = expenses[i];
+        if (weeklyExpenses[i] > weeklyExpenses[i-1])
+            maxWeeklyVal = weeklyExpenses[i];
     }
 
-    // add the days of the week to the QBatSet
+    // find the maximum monthly expense value and use this to change the range of the monthly line/bar chart
+    int maxMonthlyVal = janExp;
+    for (int i = 1; i < 12; i++) {
+        if (monthlyExpenses[i] > monthlyExpenses[i-1])
+            maxMonthlyVal = monthlyExpenses[i];
+    }
+
+    // add days of the week and months of the year to QBarSet
     *daysOfWeek << monExpenses << tuesExpenses << wedExpenses << thursExpenses << friExpenses << satExpenses << sunExpenses;
+    *monthsOfYear << janExp << febExp << marExp << aprExp << mayExp << junExp << julExp << augExp << septExp << octExp << novExp << decExp;
 
-    // create a QBarSeries and add the days of the week
-    QBarSeries *barseries = new QBarSeries();
+    // add the days of the week and months of the year to their QBarSeries
     barseries->append(daysOfWeek);
+    yearlyBarSeires->append(monthsOfYear);
 
-    // add points for the line chart to the plot
+    // add points for the weekly line chart to the plot
     lineseries->setName("Weekly Expense Trend");
     lineseries->append(QPoint(0, monExpenses));
     lineseries->append(QPoint(1, tuesExpenses));
@@ -57,6 +66,22 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     lineseries->append(QPoint(3, thursExpenses));
     lineseries->append(QPoint(4, friExpenses));
     lineseries->append(QPoint(5, satExpenses));
+    lineseries->append(QPoint(6, sunExpenses));
+
+    // add points for the monthly line chart to plot
+    yearlyLineSeries->setName("YearlyExpense Trend");
+    yearlyLineSeries->append(QPoint(0, janExp));
+    yearlyLineSeries->append(QPoint(1, febExp));
+    yearlyLineSeries->append(QPoint(2, marExp));
+    yearlyLineSeries->append(QPoint(3, aprExp));
+    yearlyLineSeries->append(QPoint(4, mayExp));
+    yearlyLineSeries->append(QPoint(5, junExp));
+    yearlyLineSeries->append(QPoint(6, julExp));
+    yearlyLineSeries->append(QPoint(7, augExp));
+    yearlyLineSeries->append(QPoint(8, septExp));
+    yearlyLineSeries->append(QPoint(9, octExp));
+    yearlyLineSeries->append(QPoint(10, novExp));
+    yearlyLineSeries->append(QPoint(11, decExp));
 
     // create chart, add data and a title
     QChart *chart = new QChart();
@@ -80,7 +105,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     QValueAxis *axisY = new QValueAxis();
     chart->setAxisY(axisY, lineseries);
     chart->setAxisY(axisY, barseries);
-    axisY->setRange(0, maxVal + 100);
+    axisY->setRange(0, maxWeeklyVal + 100);
     axisY->setTitleText("Exepensed Amount ($)");
 
     // add a legend to the plot

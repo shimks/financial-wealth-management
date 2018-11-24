@@ -75,9 +75,29 @@ private:
     int satExpenses = 0;
     int sunExpenses = 0;
 
-    // initialize QLineSeries and QBarSet for line plot
+    // initialize expenses for each month of the year
+    int janExp = 0;
+    int febExp = 0;
+    int marExp = 0;
+    int aprExp = 0;
+    int mayExp = 0;
+    int junExp = 0;
+    int julExp = 0;
+    int augExp = 0;
+    int septExp = 0;
+    int octExp = 0;
+    int novExp = 0;
+    int decExp = 0;
+
+    // initialize QLineSeries, QBarSet, and QBarSeries for weekly line/bar plot
     QLineSeries *lineseries = new QLineSeries();
     QBarSet *daysOfWeek = new QBarSet("Daily Expense Value");
+    QBarSeries *barseries = new QBarSeries();
+
+    // initialize QLineSeries, QBarSet, QBarSeries for yearly line/bar plot
+    QLineSeries *yearlyLineSeries = new QLineSeries();
+    QBarSet *monthsOfYear = new QBarSet("Monthly Expense Value");
+    QBarSeries *yearlyBarSeires = new QBarSeries();
 };
 
 #endif // BUDGETTARGET_H
