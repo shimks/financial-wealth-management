@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>addExpense</class>
- <widget class="QDialog" name="addExpense">
+ <class>addExpenseM</class>
+ <widget class="QDialog" name="addExpenseM">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>531</width>
-    <height>190</height>
+    <width>419</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>10</x>
      <y>10</y>
      <width>386</width>
-     <height>109</height>
+     <height>111</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -56,32 +56,32 @@
          <widget class="QComboBox" name="comboBox">
           <item>
            <property name="text">
-            <string>Groceries</string>
+            <string>Phone Bill</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Hygiene Products</string>
+            <string>Utility Bill</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Transportation</string>
+            <string>Rent/Lease/Morgage</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Personal</string>
+            <string>Car Lease/Loan</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Food</string>
+            <string>Credit Expenses</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>School Supplies</string>
+            <string>Savings</string>
            </property>
           </item>
          </widget>
@@ -90,43 +90,7 @@
          <widget class="QTextEdit" name="textEdit"/>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox_2">
-          <item>
-           <property name="text">
-            <string>Monday</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Tuesday</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Wednesday</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Thursday</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Friday</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Saturday</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Sunday</string>
-           </property>
-          </item>
-         </widget>
+         <widget class="QTextEdit" name="textEdit_2"/>
         </item>
        </layout>
       </item>
