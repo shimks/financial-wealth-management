@@ -97,7 +97,7 @@ private:
     // initialize QLineSeries, QBarSet, QBarSeries for yearly line/bar plot
     QLineSeries *yearlyLineSeries = new QLineSeries();
     QBarSet *monthsOfYear = new QBarSet("Monthly Expense Value");
-    QBarSeries *yearlyBarSeires = new QBarSeries();
+    QBarSeries *yearlyBarSeries = new QBarSeries();
 };
 
 #endif // BUDGETTARGET_H

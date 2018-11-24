@@ -44,19 +44,20 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     }
 
     // find the maximum monthly expense value and use this to change the range of the monthly line/bar chart
-    int maxMonthlyVal = janExp;
+    int maxYearlyVal = janExp;
     for (int i = 1; i < 12; i++) {
         if (monthlyExpenses[i] > monthlyExpenses[i-1])
-            maxMonthlyVal = monthlyExpenses[i];
+            maxYearlyVal = monthlyExpenses[i];
     }
 
     // add days of the week and months of the year to QBarSet
     *daysOfWeek << monExpenses << tuesExpenses << wedExpenses << thursExpenses << friExpenses << satExpenses << sunExpenses;
     *monthsOfYear << janExp << febExp << marExp << aprExp << mayExp << junExp << julExp << augExp << septExp << octExp << novExp << decExp;
 
+    /* Creating the weekly line and bar plot */
+
     // add the days of the week and months of the year to their QBarSeries
     barseries->append(daysOfWeek);
-    yearlyBarSeires->append(monthsOfYear);
 
     // add points for the weekly line chart to the plot
     lineseries->setName("Weekly Expense Trend");
@@ -68,8 +69,50 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     lineseries->append(QPoint(5, satExpenses));
     lineseries->append(QPoint(6, sunExpenses));
 
+    // create chart, add data and a title for weekly line plot
+    QChart *chart = new QChart();
+    chart->addSeries(barseries);
+    chart->addSeries(lineseries);
+    chart->setTitle("Line and Bar Chart of Weekly Expenses");
+
+    // add categories for each of the bars for the weekly chart
+    QStringList categories;
+    categories << "Mon" << "Tues" << "Wed" << "Thurs" << "Fri" << "Sat" << "Sun";
+
+    // create and format x-axis with categories for weekly chart
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->setAxisX(axisX, lineseries);
+    chart->setAxisX(axisX, barseries);
+    axisX->setRange(QString("Mon"), QString("Sat"));
+    axisX->setTitleText("Day of the Week");
+
+    // create and format y-axis for weekly chart
+    QValueAxis *axisY = new QValueAxis();
+    chart->setAxisY(axisY, lineseries);
+    chart->setAxisY(axisY, barseries);
+    axisY->setRange(0, maxWeeklyVal + 100);
+    axisY->setTitleText("Exepensed Amount ($)");
+
+    // add a legend to the weekly plot
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+
+    // create a widget view of the weekly chart and resize accoringly
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setFixedSize(10000, 7000);
+
+    // add the weekly chart to the layout
+    ui->verticalLayout_5->addWidget(chartView);
+
+    /* Creating the yearly line and bar plot */
+
+    // add the days of the week and months of the year to their QBarSeries
+    yearlyBarSeries->append(monthsOfYear);
+
     // add points for the monthly line chart to plot
-    yearlyLineSeries->setName("YearlyExpense Trend");
+    yearlyLineSeries->setName("Yearly Expense Trend");
     yearlyLineSeries->append(QPoint(0, janExp));
     yearlyLineSeries->append(QPoint(1, febExp));
     yearlyLineSeries->append(QPoint(2, marExp));
@@ -83,43 +126,42 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     yearlyLineSeries->append(QPoint(10, novExp));
     yearlyLineSeries->append(QPoint(11, decExp));
 
-    // create chart, add data and a title
-    QChart *chart = new QChart();
-    chart->addSeries(barseries);
-    chart->addSeries(lineseries);
-    chart->setTitle("Line and Bar Chart of Weekly Expenses");
+    // create chart, add data and a title for the yearly line plot
+    QChart *yearlyChart = new QChart();
+    yearlyChart->addSeries(yearlyBarSeries);
+    yearlyChart->addSeries(yearlyLineSeries);
+    yearlyChart->setTitle("Line and Bar Chart of Yearly Expenses");
 
-    // add categories for each of the bars
-    QStringList categories;
-    categories << "Mon" << "Tues" << "Wed" << "Thurs" << "Fri" << "Sat" << "Sun";
+    // add categories for each of the bars for the yearly chart
+    QStringList yearlyCategories;
+    yearlyCategories << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun" << "Jul" << "Aug" << "Sept" << "Oct" << "Sept" << "Nov" << "Dec";
 
-    // create and format x-axis with categories
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->setAxisX(axisX, lineseries);
-    chart->setAxisX(axisX, barseries);
-    axisX->setRange(QString("Mon"), QString("Sat"));
-    axisX->setTitleText("Day of the Week");
+    // create and format x-axis with categories for yearly chart
+    QBarCategoryAxis *yearlyAxisX = new QBarCategoryAxis();
+    yearlyAxisX->append(yearlyCategories);
+    yearlyChart->setAxisX(yearlyAxisX, yearlyLineSeries);
+    yearlyChart->setAxisX(yearlyAxisX, yearlyBarSeries);
+    yearlyAxisX->setRange(QString("Jan"), QString("Dec"));
+    yearlyAxisX->setTitleText("Month of the Year");
 
-    // create and format y-axis
-    QValueAxis *axisY = new QValueAxis();
-    chart->setAxisY(axisY, lineseries);
-    chart->setAxisY(axisY, barseries);
-    axisY->setRange(0, maxWeeklyVal + 100);
-    axisY->setTitleText("Exepensed Amount ($)");
+    // create and format y-axis for yeatly chart
+    QValueAxis *yearlyAxisY = new QValueAxis();
+    yearlyChart->setAxisY(yearlyAxisY, yearlyLineSeries);
+    yearlyChart->setAxisY(yearlyAxisY, yearlyBarSeries);
+    yearlyAxisY->setRange(0, maxYearlyVal + 100);
+    yearlyAxisY->setTitleText("Exepensed Amount ($)");
 
-    // add a legend to the plot
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
+    // add a legend to the yearly plot
+    yearlyChart->legend()->setVisible(true);
+    yearlyChart->legend()->setAlignment(Qt::AlignBottom);
 
-    // create a widget view of the chart and resize accoringly
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setFixedSize(10000, 7000);
+    // create a widget view of the yearly chart and resize accordingly
+    QChartView *yearlyChartView = new QChartView(yearlyChart);
+    yearlyChartView->setRenderHint(QPainter::Antialiasing);
+    yearlyChartView->setFixedSize(10000, 7000);
 
-    // add the chart to the layout
-    ui->verticalLayout_5->setMargin(0);
-    ui->verticalLayout_5->addWidget(chartView);
+    // add the yearly chart to the layout
+    ui->verticalLayout_10->addWidget(yearlyChartView);
 
     // add budgeting categories for weekly timeline
     AddRoot("Groceries","0");
