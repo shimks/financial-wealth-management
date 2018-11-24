@@ -110,13 +110,22 @@ void Stock::onMyStockNetworkResponse(QNetworkReply *reply) {
     double quantity = stockTree->currentItem()->data(1, Qt::DisplayRole).toDouble();
     stockTree->currentItem()->setText(3, response); // set to currentPrice
     stockTree->currentItem()->setText(4, QString::number(response.toDouble() * quantity));
+
+    // colour the texts
+    QBrush brush;
+    if (response.toDouble() >= stockTree->currentItem()->data(2, Qt::DisplayRole).toDouble()) {
+        brush.setColor(Qt::green);
+    } else {
+        brush.setColor(Qt::red);
+    }
+    stockTree->currentItem()->setForeground(3, brush);
+
     // not very robust; the total can only be updated after a network call
     calculateStockTotal();
 }
 
 void Stock::onStockChartResponse(QNetworkReply *reply) {
     QByteArray response = reply->readAll();
-    qDebug() << response << endl;
     if (tr(response) != tr("Unknown symbol")) {
         QJsonDocument doc = QJsonDocument::fromJson(response);
         QJsonArray array = doc.array();
@@ -135,7 +144,6 @@ void Stock::onStockChartResponse(QNetworkReply *reply) {
             max = (max > price) ? max : price;
             min = (min < price) ? min : price;
 
-            qDebug() << dateTime.toMSecsSinceEpoch() << " " << price << endl;
             stockLine->append(dateTime.toMSecsSinceEpoch(), price);
         }
         QStringList firstDayValue = array.first().toObject()["date"].toString().split("-");
