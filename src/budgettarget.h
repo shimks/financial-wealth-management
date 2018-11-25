@@ -89,6 +89,13 @@ private:
     int novExp = 0;
     int decExp = 0;
 
+    // initialize expenses for each week of the month
+    int week1 = 0;
+    int week2 = 0;
+    int week3 = 0;
+    int week4 = 0;
+    int extraDays = 0;
+
     // initialize QLineSeries, QBarSet, and QBarSeries for weekly line/bar plot
     QLineSeries *lineseries = new QLineSeries();
     QBarSet *daysOfWeek = new QBarSet("Daily Expense Value");
@@ -98,6 +105,11 @@ private:
     QLineSeries *yearlyLineSeries = new QLineSeries();
     QBarSet *monthsOfYear = new QBarSet("Monthly Expense Value");
     QBarSeries *yearlyBarSeries = new QBarSeries();
+
+    // initialize QLineSeries, QBarSet, QBarSeries for monthly line/bar plot
+    QLineSeries *monthlyLineSeries = new QLineSeries();
+    QBarSet *weeksOfMonth = new QBarSet("WeeklyExpenseValue");
+    QBarSeries *monthlyBarSeries = new QBarSeries();
 };
 
 #endif // BUDGETTARGET_H
