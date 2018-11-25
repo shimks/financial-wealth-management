@@ -1,9 +1,12 @@
+// internal dependencies
 #include "mainwindow.h"
 #include "sidebartabstyle.h"
 #include "networthtab.h"
 #include "budgettrackertab.h"
-#include <QtWidgets>
 #include "budgettarget.h"
+
+// external dependencies
+#include <QtWidgets>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)

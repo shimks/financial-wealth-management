@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>903</width>
-    <height>519</height>
+    <width>1251</width>
+    <height>730</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1011</width>
-     <height>591</height>
+     <width>1241</width>
+     <height>721</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -40,66 +40,19 @@
       <item>
        <widget class="QTabWidget" name="tabWidget">
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
           <string>Weekly</string>
          </attribute>
-         <widget class="QWidget" name="verticalLayoutWidget_4">
-          <property name="geometry">
-           <rect>
-            <x>790</x>
-            <y>30</y>
-            <width>221</width>
-            <height>391</height>
-           </rect>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4"/>
-         </widget>
-         <widget class="QLabel" name="label_6">
-          <property name="geometry">
-           <rect>
-            <x>240</x>
-            <y>440</y>
-            <width>251</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>18</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Graph of Weekly Expenses</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_7">
-          <property name="geometry">
-           <rect>
-            <x>810</x>
-            <y>10</y>
-            <width>221</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>18</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Expense Distribution</string>
-          </property>
-         </widget>
          <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
             <y>0</y>
-            <width>521</width>
-            <height>398</height>
+            <width>801</width>
+            <height>661</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -204,8 +157,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>521</width>
-            <height>398</height>
+            <width>821</width>
+            <height>661</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -310,8 +263,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>521</width>
-            <height>398</height>
+            <width>761</width>
+            <height>661</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_10">
