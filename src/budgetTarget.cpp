@@ -1,12 +1,10 @@
 #include "budgettarget.h"
 #include "ui_budgettarget.h"
 #include "addexpense.h"
-#include "ui_popup_window.h"
-#include "popup_window.h"
-#include <QMessageBox>
 #include "adddialog.h"
 #include "addexpensem.h"
 #include "addexpensey.h"
+#include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
 #include <QtWidgets>

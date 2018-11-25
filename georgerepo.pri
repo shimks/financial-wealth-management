@@ -24,7 +24,6 @@ SOURCES += \
     $$PWD/src/budgettrackertab.cpp \
     $$PWD/src/budgettarget.cpp \
     $$PWD/src/addexpense.cpp \
-    $$PWD/src/popup_window.cpp \
     $$PWD/src/addexpensem.cpp \
     $$PWD/src/addexpensey.cpp
 
@@ -34,7 +33,6 @@ HEADERS += \
     $$PWD/src/networthtab.h \
     $$PWD/src/stock.h \
     $$PWD/src/adddialog.h \
-    $$PWD/src/popup_window.h \
     $$PWD/src/budgettrackertab.h \
     $$PWD/src/budgettarget.h \
     $$PWD/src/addexpense.h \
@@ -43,7 +41,6 @@ HEADERS += \
 
 FORMS += \
 	$$PWD/src/adddialog.ui \
-        $$PWD/src/popup_window.ui \
         $$PWD/src/budgettarget.ui \
         $$PWD/src/addexpense.ui \
         $$PWD/src/addexpensem.ui \
