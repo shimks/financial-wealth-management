@@ -11,6 +11,9 @@
 #include <QDebug>
 #include <QtCharts>
 #include <algorithm>
+#include "sql.h"
+
+
 
 namespace Ui {
 class BudgetTarget;
@@ -31,9 +34,14 @@ public:
     void AddRoot_3(QString Category, QString Amount);
 
     // weekly, monthly, yearly edit root functions
+
+    QString EditRoot(QString Amount);
+    QString EditRoot_2(QString Amount);
+    QString EditRoot_3(QString Amount);
+    /*
     void EditRoot(QString Amount);
     void EditRoot_2(QString Amount);
-    void EditRoot_3(QString Amount);
+    void EditRoot_3(QString Amount);*/
 
     // weekly, monthly, yearly add expense functions
     void AddExpense(QString Category, QString Amount, QString Day);
@@ -43,6 +51,8 @@ public:
 
 private slots:
     // slot functions for edit buttons
+
+
     void on_Edit_clicked();
     void on_Edit_2_clicked();
     void on_Edit_4_clicked();
@@ -110,6 +120,11 @@ private:
     QLineSeries *monthlyLineSeries = new QLineSeries();
     QBarSet *weeksOfMonth = new QBarSet("WeeklyExpenseValue");
     QBarSeries *monthlyBarSeries = new QBarSeries();
+
+    //sql database
+    sql s;
+    sql s1;
+    sql s2;
 };
 
 #endif // BUDGETTARGET_H
