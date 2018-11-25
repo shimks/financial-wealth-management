@@ -887,15 +887,17 @@ void BudgetTarget::on_AddE_3_clicked(){
     monthsOfYear->replace(10, novExp);
     monthsOfYear->replace(11, decExp);
 }
-void BudgetTarget::on_DeleteE_clicked(){
-    if(ui->treeWidget_2->currentItem()!=nullptr){
 
+void BudgetTarget::on_DeleteE_clicked(){
+    if(ui->treeWidget_2->currentItem()!=nullptr) {
         QModelIndex index = ui->treeWidget_2->currentIndex();
         QString category = ui->treeWidget_2->currentItem()->text(0);
         int cateIndex = cateList.indexOf(category);
         QString before = ui->treeWidget->topLevelItem(cateIndex)->text(2);
         QString add = ui->treeWidget_2->currentItem()->text(1);
+
         QString day = ui->treeWidget_2->currentItem()->text(2);
+
         int update = before.toInt()+add.toInt();
         ui->treeWidget->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
         ui->treeWidget_2->takeTopLevelItem(index.row());
