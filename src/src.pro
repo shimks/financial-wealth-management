@@ -6,8 +6,9 @@
 
 include(../georgerepo.pri)
 QT       += sql
-TARGET = src
+TARGET = TG
 TEMPLATE = app
+RC_ICONS = TG320Logo.ico
 
 SOURCES += \
     main.cpp
