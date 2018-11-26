@@ -14,15 +14,15 @@
    <cursorShape>IBeamCursor</cursorShape>
   </property>
   <property name="windowTitle">
-   <string>Add Item</string>
+   <string>Manage Item</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>20</y>
      <width>395</width>
-     <height>61</height>
+     <height>75</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">

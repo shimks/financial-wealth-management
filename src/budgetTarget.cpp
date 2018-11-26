@@ -116,7 +116,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     // create a widget view of the weekly chart and resize accoringly
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setFixedSize(10000, 7000);
+    chartView->setFixedSize(8000, 6000);
 
     // add the weekly chart to the layout
     ui->verticalLayout_5->addWidget(chartView);

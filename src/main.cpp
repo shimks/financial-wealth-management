@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     }
 
     MainWindow w;
+    w.setWindowTitle("TG Financial Wealth Management​");
     w.show();
 
     return a.exec();
