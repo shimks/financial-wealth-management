@@ -26,21 +26,9 @@
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="mainLabel">
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QTabWidget" name="tabWidget">
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
@@ -147,6 +135,17 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="verticalLayoutWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>840</x>
+            <y>0</y>
+            <width>381</width>
+            <height>661</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_9"/>
+         </widget>
         </widget>
         <widget class="QWidget" name="tab_3">
          <attribute name="title">
@@ -252,6 +251,17 @@
             </layout>
            </item>
           </layout>
+         </widget>
+         <widget class="QWidget" name="verticalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>850</x>
+            <y>0</y>
+            <width>371</width>
+            <height>661</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4"/>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_2">
@@ -360,6 +370,18 @@
           </layout>
          </widget>
         </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mainLabel">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
        </widget>
       </item>
      </layout>

@@ -1,9 +1,14 @@
+// internal dependencies
 #include "budgettarget.h"
 #include "ui_budgettarget.h"
 #include "addexpense.h"
 #include "adddialog.h"
 #include "addexpensem.h"
 #include "addexpensey.h"
+#include "drilldownchart.h"
+#include "drilldownslice.h"
+
+// external dependencies
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
@@ -31,6 +36,8 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     // create two tree widgets to hold budget item information
     ui->treeWidget->setColumnCount(3);
     ui->treeWidget_2->setColumnCount(3);
+
+/////////////////////////////// MAKING AND FORMATING LINE CHARTS /////////////////////////////////
 
     // create arrays of the expenses for each day and month
     int dailyExpenses[] = {monExpenses, tuesExpenses, wedExpenses, thursExpenses, friExpenses, satExpenses, sunExpenses};
@@ -185,11 +192,11 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     monthlyLineSeries->append(QPoint(3, week4));
     monthlyLineSeries->append(QPoint(4, extraDays));
 
-    // create chart, add data and a title for the yearly line plot
+    // create chart, add data and a title for the monthly line plot
     QChart *monthlyChart = new QChart();
     monthlyChart->addSeries(monthlyBarSeries);
     monthlyChart->addSeries(monthlyLineSeries);
-    monthlyChart->setTitle("Line and Bar Chart of Yearly Expenses");
+    monthlyChart->setTitle("Line and Bar Chart of Monthly Expenses");
 
     // add categories for each of the bars for the yearly chart
     QStringList monthlyCategories;
@@ -221,6 +228,64 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
 
     // add the yearly chart to the layout
     ui->verticalLayout_6->addWidget(monthlyChartView);
+
+/////////////////////////////// MAKING AND ADDDING PIE CHARTS /////////////////////////////////
+
+    DrilldownChart *weeklyPieChart = new DrilldownChart();
+    chart->setTheme(QChart::ChartThemeLight);
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignRight);
+
+    QPieSeries *weeklySeries = new QPieSeries();
+    weeklySeries->setName("Breakdon of Daily Expenses");
+
+    const QStringList weeklyCategories = {
+        "Groceries", "Hygiene Products", "Transportation", "Personal", "Food", "School Supplies"
+    };
+    const QStringList days = {
+        "Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"
+    };
+
+    // make a QPieSeries for each day
+    QPieSeries *monSeries = new QPieSeries();
+    monSeries->setName("Breakdown of daily expenses: Monday");
+    QPieSeries *tuesSeries = new QPieSeries();
+    tuesSeries->setName("Breakdown of daily expenses: Tuesday");
+    QPieSeries *wedSeries = new QPieSeries();
+    wedSeries->setName("Breakdown of daily expenses: Wednesday");
+    QPieSeries *thursSeries = new QPieSeries();
+    thursSeries->setName("Breakdown of daily expenses: Thursday");
+    QPieSeries *friSeries = new QPieSeries();
+    friSeries->setName("Breakdown of daily expenses: Friday");
+    QPieSeries *satSeries = new QPieSeries();
+    satSeries->setName("Breakdown of daily expenses: Saturday");
+    QPieSeries *sunSeries = new QPieSeries();
+    sunSeries->setName("Breakdown of daily expenses: Sunday");
+
+    // make a QPieSeries for each category within the day
+    *monSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
+    *monSeries << new DrilldownSlice(tuesExpenses, "Tuesday", weeklySeries);
+    *monSeries << new DrilldownSlice(wedExpenses, "Wednesday", weeklySeries);
+    *monSeries << new DrilldownSlice(thursExpenses, "Pers", weeklySeries);
+
+    // connect each series to the weekly pie chart
+    //QObject::connect(series, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+
+    // create each slice for the weekly pie chart
+    //*monSeries << new DrilldownSlice(series->sum(), name, series);
+
+
+    //QObject::connect(weeklySeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+
+    //weeklyPieChart->changeSeries(weeklySeries);
+
+    //QChartView *weeklyPieChartView = new QChartView(weeklyPieChart);
+    //weeklyPieChartView->setRenderHint(QPainter::Antialiasing);
+
+    //ui->verticalLayout_9->addWidget(weeklyPieChartView);
+
+/////////////////////////////// ADDING DEFAULT ITEMS TO  TREE WIDGETS /////////////////////////////////
 
     // add budgeting categories for weekly timeline
     AddRoot("Groceries","0");
@@ -544,6 +609,8 @@ BudgetTarget::~BudgetTarget() {
     delete ui;
 }
 
+/////////////////////////////// BEHAVIOURAL FUNCTIONS FOR TREEE WIDGETS AND PLOTS /////////////////////////////////
+
 void BudgetTarget::AddRoot(QString Category, QString Amount) {
     s.connectsql();
     Amount = s.select(s.sql_query, "database", Category,2);
@@ -756,6 +823,17 @@ void BudgetTarget::on_AddE_clicked() {
     daysOfWeek->replace(4, friExpenses);
     daysOfWeek->replace(5, satExpenses);
     daysOfWeek->replace(6, sunExpenses);
+
+    // update the maximum bounding of the chart
+    int axisVal = maxWeeklyVal;
+    int checkingExpenses[] = {monExpenses, tuesExpenses, wedExpenses, thursExpenses, friExpenses, satExpenses, sunExpenses};
+    for (int i = 1; i < 7; i++) {
+        if (checkingExpenses[i] > maxWeeklyVal)
+            axisVal = checkingExpenses[i];
+    }
+    axisY->setRange(0, axisVal + 100);
+    //axisY->maxChanged(axisVal + 100);
+    //axisY->applyNiceNumbers();
 }
 
 // monthly
@@ -889,6 +967,7 @@ void BudgetTarget::on_AddE_3_clicked(){
 }
 
 void BudgetTarget::on_DeleteE_clicked(){
+    // if an item in the tree widget is selected
     if(ui->treeWidget_2->currentItem()!=nullptr) {
         QModelIndex index = ui->treeWidget_2->currentIndex();
         QString category = ui->treeWidget_2->currentItem()->text(0);
@@ -899,6 +978,10 @@ void BudgetTarget::on_DeleteE_clicked(){
         QString day = ui->treeWidget_2->currentItem()->text(2);
 
         int update = before.toInt()+add.toInt();
+
+        QString dayString = ui->treeWidget_2->currentItem()->text(2);
+        int selectedIndex = dayList.indexOf(dayString);
+
         ui->treeWidget->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
         ui->treeWidget_2->takeTopLevelItem(index.row());
 
@@ -909,12 +992,47 @@ void BudgetTarget::on_DeleteE_clicked(){
         s.updateExpenditureD(s.sql_query, "database", category, oldValue, oldExp,add, day);
 
         s.close();
+
+        // adjust the plot according to the amount deleted
+        int deletedAmount = add.toInt();
+        switch(selectedIndex) {
+            case 0 : monExpenses -= deletedAmount;
+            break;
+            case 1 : tuesExpenses -= deletedAmount;
+            break;
+            case 2 : wedExpenses -= deletedAmount;
+            break;
+            case 3 : thursExpenses -= deletedAmount;
+            break;
+            case 4 : friExpenses -= deletedAmount;
+            break;
+            case 5 : satExpenses -= deletedAmount;
+            break;
+            case 6 : sunExpenses -= deletedAmount;
+            break;
+            default : break;
+        }
+        lineseries->clear();
+        lineseries->append(QPoint(0, monExpenses));
+        lineseries->append(QPoint(1, tuesExpenses));
+        lineseries->append(QPoint(2, wedExpenses));
+        lineseries->append(QPoint(3, thursExpenses));
+        lineseries->append(QPoint(4, friExpenses));
+        lineseries->append(QPoint(5, satExpenses));
+        lineseries->append(QPoint(6, sunExpenses));
+        daysOfWeek->replace(0, monExpenses);
+        daysOfWeek->replace(1, tuesExpenses);
+        daysOfWeek->replace(2, wedExpenses);
+        daysOfWeek->replace(3, thursExpenses);
+        daysOfWeek->replace(4, friExpenses);
+        daysOfWeek->replace(5, satExpenses);
+        daysOfWeek->replace(6, sunExpenses);
     }
 }
 
 void BudgetTarget::on_DeleteE_2_clicked(){
+    // if an item in the tree widget is selected
     if(ui->treeWidget_4->currentItem()!=nullptr){
-
         QModelIndex index = ui->treeWidget_4->currentIndex();
         QString category = ui->treeWidget_4->currentItem()->text(0);
         int cateIndex = cateListM.indexOf(category);
@@ -922,8 +1040,6 @@ void BudgetTarget::on_DeleteE_2_clicked(){
         QString add = ui->treeWidget_4->currentItem()->text(1);
         int update = before.toInt()+add.toInt();
         QString day = ui->treeWidget_4->currentItem()->text(2);
-        ui->treeWidget_3->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
-        ui->treeWidget_4->takeTopLevelItem(index.row());
         s.connectsql1();
         QString oldValue = s.select(s.sql_query1, "database1", category,2);
         QString amount = (QString)(add.toInt()*-1);
@@ -932,9 +1048,44 @@ void BudgetTarget::on_DeleteE_2_clicked(){
 
         s.close();
 
+        QString dayString = ui->treeWidget_4->currentItem()->text(2);
+        int dayInt = dayString.toInt();
+        int selectedIndex = dayInt / 7;
+
+        ui->treeWidget_3->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
+        ui->treeWidget_4->takeTopLevelItem(index.row());
+
+        // adjust the plot accoring to the amount deleted
+        int deletedAmount = add.toInt();
+        switch(selectedIndex) {
+            case 0 : week1 -= deletedAmount;
+            break;
+            case 1 : week2 -= deletedAmount;
+            break;
+            case 2 : week3 -= deletedAmount;
+            break;
+            case 3 : week4 -= deletedAmount;
+            break;
+            case 4 : extraDays -= deletedAmount;
+            break;
+            default : break;
+        }
+        monthlyLineSeries->clear();
+        monthlyLineSeries->append(QPoint(0, week1));
+        monthlyLineSeries->append(QPoint(1, week2));
+        monthlyLineSeries->append(QPoint(2, week3));
+        monthlyLineSeries->append(QPoint(3, week4));
+        monthlyLineSeries->append(QPoint(4, extraDays));
+        weeksOfMonth->replace(0, week1);
+        weeksOfMonth->replace(1, week2);
+        weeksOfMonth->replace(2, week3);
+        weeksOfMonth->replace(3, week4);
+        weeksOfMonth->replace(4, extraDays);
     }
 }
+
 void BudgetTarget::on_DeleteE_3_clicked(){
+    // if an item in the tree widget is selected
     if(ui->treeWidget_7->currentItem()!=nullptr){
         QModelIndex index = ui->treeWidget_7->currentIndex();
         QString category = ui->treeWidget_7->currentItem()->text(0);
@@ -944,8 +1095,6 @@ void BudgetTarget::on_DeleteE_3_clicked(){
         QString month = ui->treeWidget_7->currentItem()->text(2);
 
         int update = before.toInt()+add.toInt();
-        ui->treeWidget_6->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
-        ui->treeWidget_7->takeTopLevelItem(index.row());
 
         s.connectsql2();
         QString oldValue = s.select(s.sql_query2, "database2", category,2);
@@ -954,5 +1103,66 @@ void BudgetTarget::on_DeleteE_3_clicked(){
         s.updateExpenditureD(s.sql_query2, "database2", category, oldValue, oldExp,add, month);
 
         s.close();
+
+        QString dayString = ui->treeWidget_7->currentItem()->text(2);
+        int selectedIndex = dayListY.indexOf(dayString);
+
+        ui->treeWidget_6->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
+        ui->treeWidget_7->takeTopLevelItem(index.row());
+
+        // convert the string to an int and add it to the corresponding date
+        int amountInt = add.toInt();
+        switch(selectedIndex) {
+            case 0 : janExp -= amountInt;
+            break;
+            case 1 : febExp -= amountInt;
+            break;
+            case 2 : marExp -= amountInt;
+            break;
+            case 3 : aprExp -= amountInt;
+            break;
+            case 4 : mayExp -= amountInt;
+            break;
+            case 5 : junExp -= amountInt;
+            break;
+            case 6 : julExp -= amountInt;
+            break;
+            case 7 : augExp -= amountInt;
+            break;
+            case 8 : septExp -= amountInt;
+            break;
+            case 9 : octExp -= amountInt;
+            break;
+            case 10 : novExp -= amountInt;
+            break;
+            case 11 : decExp -= amountInt;
+            break;
+            default : break;
+        }
+        yearlyLineSeries->clear();
+        yearlyLineSeries->append(QPoint(0, janExp));
+        yearlyLineSeries->append(QPoint(1, febExp));
+        yearlyLineSeries->append(QPoint(2, marExp));
+        yearlyLineSeries->append(QPoint(3, aprExp));
+        yearlyLineSeries->append(QPoint(4, mayExp));
+        yearlyLineSeries->append(QPoint(5, junExp));
+        yearlyLineSeries->append(QPoint(6, julExp));
+        yearlyLineSeries->append(QPoint(7, augExp));
+        yearlyLineSeries->append(QPoint(8, septExp));
+        yearlyLineSeries->append(QPoint(9, octExp));
+        yearlyLineSeries->append(QPoint(10, novExp));
+        yearlyLineSeries->append(QPoint(11, decExp));
+        monthsOfYear->replace(0, janExp);
+        monthsOfYear->replace(1, febExp);
+        monthsOfYear->replace(2, marExp);
+        monthsOfYear->replace(3, aprExp);
+        monthsOfYear->replace(4, mayExp);
+        monthsOfYear->replace(5, junExp);
+        monthsOfYear->replace(6, julExp);
+        monthsOfYear->replace(7, augExp);
+        monthsOfYear->replace(8, septExp);
+        monthsOfYear->replace(9, octExp);
+        monthsOfYear->replace(10, novExp);
+        monthsOfYear->replace(11, decExp);
     }
 }

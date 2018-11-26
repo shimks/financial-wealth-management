@@ -1,6 +1,7 @@
 #ifndef BUDGETTARGET_H
 #define BUDGETTARGET_H
 
+// external dependencies
 #include <QWidget>
 #include <QMessageBox>
 #include <QFile>
@@ -106,6 +107,11 @@ private:
     int week4 = 0;
     int extraDays = 0;
 
+    // initialize the maximum expense category values for weekly, monthly, and yearly timelines
+    int maxWeeklyVal;
+    int maxMonthlyVal;
+    int maxYeatlyVal;
+
     // initialize QLineSeries, QBarSet, and QBarSeries for weekly line/bar plot
     QLineSeries *lineseries = new QLineSeries();
     QBarSet *daysOfWeek = new QBarSet("Daily Expense Value");
@@ -125,6 +131,14 @@ private:
     sql s;
     sql s1;
     sql s2;
+
+    // initialize the axes for each of the charts
+    QValueAxis *axisX = new QValueAxis();
+    QValueAxis *axisY = new QValueAxis();
+    QValueAxis *monthlyAxisX = new QValueAxis();
+    QValueAxis *monthlyAxisY = new QValueAxis();
+    QValueAxis *yearlyAxisX = new QValueAxis();
+    QValueAxis *yearlyAxisY = new QValueAxis();
 };
 
 #endif // BUDGETTARGET_H
