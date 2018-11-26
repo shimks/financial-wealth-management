@@ -106,7 +106,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     QValueAxis *axisY = new QValueAxis();
     chart->setAxisY(axisY, lineseries);
     chart->setAxisY(axisY, barseries);
-    axisY->setRange(0, maxWeeklyVal + 100);
+    axisY->setRange(0, 100);
     axisY->setTitleText("Expensed Amount ($)");
 
     // add a legend to the weekly plot
@@ -163,7 +163,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     QValueAxis *yearlyAxisY = new QValueAxis();
     yearlyChart->setAxisY(yearlyAxisY, yearlyLineSeries);
     yearlyChart->setAxisY(yearlyAxisY, yearlyBarSeries);
-    yearlyAxisY->setRange(0, maxYearlyVal + 100);
+    yearlyAxisY->setRange(0, 200000);
     yearlyAxisY->setTitleText("Exepensed Amount ($)");
 
     // add a legend to the yearly plot
@@ -213,7 +213,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     QValueAxis *monthlyAxisY = new QValueAxis();
     monthlyChart->setAxisY(monthlyAxisY, monthlyLineSeries);
     monthlyChart->setAxisY(monthlyAxisY, monthlyBarSeries);
-    monthlyAxisY->setRange(0, maxMonthlyVal + 100);
+    monthlyAxisY->setRange(0, 5000);
     monthlyAxisY->setTitleText("Exepensed Amount ($)");
 
     // add a legend to the yearly plot
@@ -238,7 +238,6 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignRight);
 
-    QPieSeries *weeklySeries = new QPieSeries();
     weeklySeries->setName("Breakdon of Weekly Expenses by Day");
 
     const QStringList weeklyCategories = {
@@ -249,19 +248,12 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     };
 
     // make a QPieSeries for each day
-    QPieSeries *monSeries = new QPieSeries();
     monSeries->setName("Breakdown of daily expenses: Monday");
-    QPieSeries *tuesSeries = new QPieSeries();
     tuesSeries->setName("Breakdown of daily expenses: Tuesday");
-    QPieSeries *wedSeries = new QPieSeries();
     wedSeries->setName("Breakdown of daily expenses: Wednesday");
-    QPieSeries *thursSeries = new QPieSeries();
     thursSeries->setName("Breakdown of daily expenses: Thursday");
-    QPieSeries *friSeries = new QPieSeries();
     friSeries->setName("Breakdown of daily expenses: Friday");
-    QPieSeries *satSeries = new QPieSeries();
     satSeries->setName("Breakdown of daily expenses: Saturday");
-    QPieSeries *sunSeries = new QPieSeries();
     sunSeries->setName("Breakdown of daily expenses: Sunday");
 
     // make a QPieSeries for each category within the day
@@ -351,7 +343,6 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignRight);
 
-    QPieSeries *monthlySeries = new QPieSeries();
     monthlySeries->setName("Breakdon of Monthly Expenses by Week");
 
     const QStringList monthlyPieCategories = {
@@ -362,15 +353,10 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     };
 
     // make a QPieSeries for each day
-    QPieSeries *week1Series = new QPieSeries();
     week1Series->setName("Breakdown of monthly expenses: Week 1");
-    QPieSeries *week2Series = new QPieSeries();
     week2Series->setName("Breakdown of monthly expenses: Week 2");
-    QPieSeries *week3Series = new QPieSeries();
     week3Series->setName("Breakdown of monthly expenses: Week 3");
-    QPieSeries *week4Series = new QPieSeries();
     week4Series->setName("Breakdown of monthly expenses: Week 4");
-    QPieSeries *week5Series = new QPieSeries();
     week5Series->setName("Breakdown of monthly expenses: Week 5");
 
     // make a QPieSeries for each category within the day
@@ -442,7 +428,6 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     yearlyPieChart->legend()->setVisible(true);
     yearlyPieChart->legend()->setAlignment(Qt::AlignRight);
 
-    QPieSeries *yearlySeries = new QPieSeries();
     yearlySeries->setName("Breakdown of Yearly Expenses by Month");
 
     const QStringList yearlyPieCategories = {
@@ -453,29 +438,17 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     };
 
     // make a QPieSeries for each day
-    QPieSeries *janSeries = new QPieSeries();
     janSeries->setName("Breakdown of yearly expenses: January");
-    QPieSeries *febSeries = new QPieSeries();
     febSeries->setName("Breakdown of yearly expenses: February");
-    QPieSeries *marSeries = new QPieSeries();
     marSeries->setName("Breakdown of yearly expenses: March");
-    QPieSeries *aprSeries = new QPieSeries();
     aprSeries->setName("Breakdown of yearly expenses: April");
-    QPieSeries *maySeries = new QPieSeries();
     maySeries->setName("Breakdown of yearly expenses: May");
-    QPieSeries *junSeries = new QPieSeries();
     junSeries->setName("Breakdown of yearly expenses: June");
-    QPieSeries *julSeries = new QPieSeries();
     julSeries->setName("Breakdown of yearly expenses: July");
-    QPieSeries *augSeries = new QPieSeries();
     augSeries->setName("Breakdown of yearly expenses: August");
-    QPieSeries *septSeries = new QPieSeries();
     septSeries->setName("Breakdown of yearly expenses: September");
-    QPieSeries *octSeries = new QPieSeries();
     octSeries->setName("Breakdown of yearly expenses: October");
-    QPieSeries *novSeries = new QPieSeries();
     novSeries->setName("Breakdown of yearly expenses: November");
-    QPieSeries *decSeries = new QPieSeries();
     decSeries->setName("Breakdown of yearly expenses: December");
 
     // make a QPieSeries for each category within the day
@@ -940,8 +913,6 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     monthsOfYear->replace(9, octExp);
     monthsOfYear->replace(10, novExp);
     monthsOfYear->replace(11, decExp);
-
-
 }
 
 // BudgetTarget destructor
@@ -1164,6 +1135,16 @@ void BudgetTarget::on_AddE_clicked() {
     daysOfWeek->replace(5, satExpenses);
     daysOfWeek->replace(6, sunExpenses);
 
+    // clear the pie chart series and redistribute the slices
+    weeklySeries->clear();
+    *weeklySeries << new DrilldownSlice(monExpenses, "Monday", monSeries);
+    *weeklySeries << new DrilldownSlice(tuesExpenses, "Tuesday", tuesSeries);
+    *weeklySeries << new DrilldownSlice(wedExpenses, "Wednesday", wedSeries);
+    *weeklySeries << new DrilldownSlice(thursExpenses, "Thursday", thursSeries);
+    *weeklySeries << new DrilldownSlice(friExpenses, "Friday", friSeries);
+    *weeklySeries << new DrilldownSlice(satExpenses, "Saturday", satSeries);
+    *weeklySeries << new DrilldownSlice(sunExpenses, "Sunday", sunSeries);
+
     // update the maximum bounding of the chart
     int axisVal = maxWeeklyVal;
     int checkingExpenses[] = {monExpenses, tuesExpenses, wedExpenses, thursExpenses, friExpenses, satExpenses, sunExpenses};
@@ -1225,6 +1206,14 @@ void BudgetTarget::on_AddE_2_clicked(){
     weeksOfMonth->replace(2, week3);
     weeksOfMonth->replace(3, week4);
     weeksOfMonth->replace(4, extraDays);
+
+    // clear the pie chart series and redistribute the slices
+    monthlySeries->clear();
+    *monthlySeries << new DrilldownSlice(week1, "Week 1", week1Series);
+    *monthlySeries << new DrilldownSlice(week2, "Week 2", week2Series);
+    *monthlySeries << new DrilldownSlice(week3, "Week 3", week3Series);
+    *monthlySeries << new DrilldownSlice(week4, "Week 5", week4Series);
+    *monthlySeries << new DrilldownSlice(extraDays, "Week 6", week5Series);
 }
 
 // yearly
@@ -1304,6 +1293,21 @@ void BudgetTarget::on_AddE_3_clicked(){
     monthsOfYear->replace(9, octExp);
     monthsOfYear->replace(10, novExp);
     monthsOfYear->replace(11, decExp);
+
+    // clear the pie chart series and redistribute the slices
+    yearlySeries->clear();
+    *yearlySeries << new DrilldownSlice(janExp, "January", janSeries);
+    *yearlySeries << new DrilldownSlice(febExp, "Febrary", febSeries);
+    *yearlySeries << new DrilldownSlice(marExp, "March", marSeries);
+    *yearlySeries << new DrilldownSlice(aprExp, "April", aprSeries);
+    *yearlySeries << new DrilldownSlice(mayExp, "May", maySeries);
+    *yearlySeries << new DrilldownSlice(junExp, "June", junSeries);
+    *yearlySeries << new DrilldownSlice(julExp, "July", julSeries);
+    *yearlySeries << new DrilldownSlice(augExp, "August", augSeries);
+    *yearlySeries << new DrilldownSlice(septExp, "September", septSeries);
+    *yearlySeries << new DrilldownSlice(octExp, "October", octSeries);
+    *yearlySeries << new DrilldownSlice(novExp, "November", novSeries);
+    *yearlySeries << new DrilldownSlice(decExp, "December", decSeries);
 }
 
 void BudgetTarget::on_DeleteE_clicked(){
@@ -1369,6 +1373,16 @@ void BudgetTarget::on_DeleteE_clicked(){
         daysOfWeek->replace(4, friExpenses);
         daysOfWeek->replace(5, satExpenses);
         daysOfWeek->replace(6, sunExpenses);
+
+        // clear the pie chart series and redistribute the slices
+        weeklySeries->clear();
+        *weeklySeries << new DrilldownSlice(monExpenses, "Monday", monSeries);
+        *weeklySeries << new DrilldownSlice(tuesExpenses, "Tuesday", tuesSeries);
+        *weeklySeries << new DrilldownSlice(wedExpenses, "Wednesday", wedSeries);
+        *weeklySeries << new DrilldownSlice(thursExpenses, "Thursday", thursSeries);
+        *weeklySeries << new DrilldownSlice(friExpenses, "Friday", friSeries);
+        *weeklySeries << new DrilldownSlice(satExpenses, "Saturday", satSeries);
+        *weeklySeries << new DrilldownSlice(sunExpenses, "Sunday", sunSeries);
     }
 }
 
@@ -1423,6 +1437,15 @@ void BudgetTarget::on_DeleteE_2_clicked(){
         weeksOfMonth->replace(2, week3);
         weeksOfMonth->replace(3, week4);
         weeksOfMonth->replace(4, extraDays);
+
+
+        // clear the pie chart series and redistribute the slices
+        monthlySeries->clear();
+        *monthlySeries << new DrilldownSlice(week1, "Week 1", week1Series);
+        *monthlySeries << new DrilldownSlice(week2, "Week 2", week2Series);
+        *monthlySeries << new DrilldownSlice(week3, "Week 3", week3Series);
+        *monthlySeries << new DrilldownSlice(week4, "Week 5", week4Series);
+        *monthlySeries << new DrilldownSlice(extraDays, "Week 6", week5Series);
     }
 }
 
@@ -1506,5 +1529,20 @@ void BudgetTarget::on_DeleteE_3_clicked(){
         monthsOfYear->replace(9, octExp);
         monthsOfYear->replace(10, novExp);
         monthsOfYear->replace(11, decExp);
+
+        // clear the pie chart series and redistribute the slices
+        yearlySeries->clear();
+        *yearlySeries << new DrilldownSlice(janExp, "January", janSeries);
+        *yearlySeries << new DrilldownSlice(febExp, "Febrary", febSeries);
+        *yearlySeries << new DrilldownSlice(marExp, "March", marSeries);
+        *yearlySeries << new DrilldownSlice(aprExp, "April", aprSeries);
+        *yearlySeries << new DrilldownSlice(mayExp, "May", maySeries);
+        *yearlySeries << new DrilldownSlice(junExp, "June", junSeries);
+        *yearlySeries << new DrilldownSlice(julExp, "July", julSeries);
+        *yearlySeries << new DrilldownSlice(augExp, "August", augSeries);
+        *yearlySeries << new DrilldownSlice(septExp, "September", septSeries);
+        *yearlySeries << new DrilldownSlice(octExp, "October", octSeries);
+        *yearlySeries << new DrilldownSlice(novExp, "November", novSeries);
+        *yearlySeries << new DrilldownSlice(decExp, "December", decSeries);
     }
 }
