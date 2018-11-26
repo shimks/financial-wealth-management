@@ -28,7 +28,9 @@ SOURCES += \
     $$PWD/src/addexpensey.cpp \
     $$PWD/src/sql.cpp \
     $$PWD/src/asset.cpp \
-    $$PWD/src/popup.cpp
+    $$PWD/src/popup.cpp \
+    $$PWD/src/drilldownchart.cpp \
+    $$PWD/src/drilldownslice.cpp \
 
 HEADERS += \
     $$PWD/src/mainwindow.h \
@@ -43,7 +45,9 @@ HEADERS += \
     $$PWD/src/addexpensey.h \
     $$PWD/src/sql.h \
     $$PWD/src/asset.h \
-    $$PWD/src/popup.h
+    $$PWD/src/popup.h \
+    $$PWD/src/drilldownchart.h \
+    $$PWD/src/drilldownslice.h \
 
 FORMS += \
 	$$PWD/src/adddialog.ui \
