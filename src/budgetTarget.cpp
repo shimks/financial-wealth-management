@@ -13,6 +13,8 @@
 #include <QDebug>
 #include <QtCharts>
 #include <algorithm>
+#include "sql.h"
+
 
 using namespace std;
 
@@ -99,7 +101,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     chart->setAxisY(axisY, lineseries);
     chart->setAxisY(axisY, barseries);
     axisY->setRange(0, maxWeeklyVal + 100);
-    axisY->setTitleText("Exepensed Amount ($)");
+    axisY->setTitleText("Expensed Amount ($)");
 
     // add a legend to the weekly plot
     chart->legend()->setVisible(true);
@@ -294,6 +296,247 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     dayListY << "October";
     dayListY << "November";
     dayListY << "December";
+
+    //sql database
+    int sum=0;
+
+    s.connectsql();
+    for (int i = 3; i < 10; i++) {
+        QString str = s.select(s.sql_query, "database", "Groceries", i);
+        if (str != "0")
+            AddExpense("Groceries",str, s.transition(i-2));
+            sum+=str.toInt();
+    }
+
+    for (int i = 3; i < 10; i++) {
+        QString str = s.select(s.sql_query, "database", "Hygiene Products", i);
+        if (str != "0")
+            AddExpense("Hygiene Products",str, s.transition(i-2));
+    }
+    for (int i = 3; i < 10; i++) {
+        QString str = s.select(s.sql_query, "database", "Transportation", i);
+        if (str != "0")
+            AddExpense("Transportation",str, s.transition(i-2));
+    }
+    for (int i = 3; i < 10; i++) {
+        QString str = s.select(s.sql_query, "database", "Personal", i);
+        if (str != "0")
+            AddExpense("Personal",str, s.transition(i-2));
+    }
+    for (int i = 3; i < 10; i++) {
+        QString str = s.select(s.sql_query, "database", "Food", i);
+        if (str != "0")
+            AddExpense("Food",str, s.transition(i-2));
+    }
+    for (int i = 3; i < 10; i++) {
+        QString str = s.select(s.sql_query, "database", "School Supplies", i);
+        if (str != "0")
+            AddExpense("School Supplies",str, s.transition(i-2));
+    }
+    s.close();
+
+    s.connectsql1();
+    for (int i = 3; i < 34; i++) {
+        QString str = s.select(s.sql_query1, "database1", "Phone Bill", i);
+        if (str != "0")
+            AddExpense_2("Phone Bill",str, s.transition1(i-2));
+    }
+    for (int i = 3; i < 34; i++) {
+        QString str = s.select(s.sql_query1, "database1", "Utility Bill", i);
+        if (str != "0")
+            AddExpense_2("Utility Bill",str, s.transition1(i-2));
+    }
+    for (int i = 3; i < 34; i++) {
+        QString str = s.select(s.sql_query1, "database1", "Rent/Leas/Morgage", i);
+        if (str != "0")
+            AddExpense_2("Rent/Leas/Morgage",str, s.transition1(i-2));
+    }
+    for (int i = 3; i < 34; i++) {
+        QString str = s.select(s.sql_query1, "database1", "Car Lease/Loan", i);
+        if (str != "0")
+            AddExpense_2("Car Lease/Loan",str, s.transition1(i-2));
+    }
+    for (int i = 3; i < 34; i++) {
+        QString str = s.select(s.sql_query1, "database1", "Credit Expenses", i);
+        if (str != "0")
+            AddExpense_2("Credit Expenses",str, s.transition1(i-2));
+    }
+    for (int i = 3; i < 34; i++) {
+        QString str = s.select(s.sql_query1, "database1", "Savings", i);
+        if (str != "0")
+            AddExpense_2("Savings",str, s.transition1(i-2));
+    }
+    s.close();
+
+    s.connectsql2();
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Life Insurance", i);
+        if (str != "0")
+            AddExpense_3("Life Insurance",str, s.transition2(i-2));
+    }
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Car Insurnce", i);
+        if (str != "0")
+            AddExpense_3("Car Insurnce",str, s.transition2(i-2));
+    }
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Health Insurance", i);
+        if (str != "0")
+            AddExpense_3("Health Insurance",str, s.transition2(i-2));
+    }
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Gifts", i);
+        if (str != "0")
+            AddExpense_3("Gifts",str, s.transition2(i-2));
+    }
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Clothing", i);
+        if (str != "0")
+            AddExpense_3("Clothing",str, s.transition2(i-2));
+    }
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Home/Renovations", i);
+        if (str != "0")
+            AddExpense_3("Home/Renovations",str, s.transition2(i-2));
+    }
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Student Loans", i);
+        if (str != "0")
+            AddExpense_3("Student Loans",str, s.transition2(i-2));
+    }
+    for (int i = 3; i < 15; i++) {
+        QString str = s.select(s.sql_query2, "database2", "Tuition Fee", i);
+        if (str != "0")
+            AddExpense_3("Tuition Fee",str, s.transition2(i-2));
+    }
+
+    s.close();
+    s.connectsql();
+    lineseries->clear();
+
+    for (int i = 0; i < 6; i++) {
+        QString str = s.select(s.sql_query, "database", cateList[i], 3);
+        monExpenses=monExpenses+str.toInt();
+    }
+
+    for (int i = 0; i < 6; i++) {
+        QString str = s.select(s.sql_query, "database", cateList[i], 4);
+        tuesExpenses=tuesExpenses+str.toInt();
+    }
+    for (int i = 0; i < 6; i++) {
+        QString str = s.select(s.sql_query, "database", cateList[i], 5);
+        wedExpenses=wedExpenses+str.toInt();
+    }
+    for (int i = 0; i < 6; i++) {
+        QString str = s.select(s.sql_query, "database", cateList[i], 6);
+        thursExpenses=thursExpenses+str.toInt();
+    }
+    for (int i = 0; i < 6; i++) {
+        QString str = s.select(s.sql_query, "database", cateList[i], 7);
+        friExpenses=friExpenses+str.toInt();
+    }
+    for (int i = 0; i < 6; i++) {
+        QString str = s.select(s.sql_query, "database", cateList[i], 8);
+        satExpenses=satExpenses+str.toInt();
+    }
+    for (int i = 0; i < 6; i++) {
+        QString str = s.select(s.sql_query, "database", cateList[i], 9);
+        sunExpenses=sunExpenses+str.toInt();
+    }
+    s.close();
+    lineseries->append(QPoint(0, monExpenses));
+    lineseries->append(QPoint(1, tuesExpenses));
+    lineseries->append(QPoint(2, wedExpenses));
+    lineseries->append(QPoint(3, thursExpenses));
+    lineseries->append(QPoint(4, friExpenses));
+    lineseries->append(QPoint(5, satExpenses));
+    lineseries->append(QPoint(6, sunExpenses));
+    daysOfWeek->replace(0, monExpenses);
+    daysOfWeek->replace(1, tuesExpenses);
+    daysOfWeek->replace(2, wedExpenses);
+    daysOfWeek->replace(3, thursExpenses);
+    daysOfWeek->replace(4, friExpenses);
+    daysOfWeek->replace(5, satExpenses);
+    daysOfWeek->replace(6, sunExpenses);
+
+    s.connectsql2();
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 3);
+        janExp=janExp+str.toInt();
+    }
+
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 4);
+        febExp=febExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 5);
+        marExp=marExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 6);
+        aprExp=aprExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 7);
+        mayExp=mayExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 8);
+        junExp=junExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 9);
+        julExp=julExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 10);
+        augExp=augExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 11);
+        septExp=septExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 12);
+        octExp=octExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 13);
+        novExp=novExp+str.toInt();
+    }
+    for (int i = 0; i < 8; i++) {
+        QString str = s.select(s.sql_query2, "database2", cateListY[i], 14);
+        decExp=decExp+str.toInt();
+    }
+    s.close();
+    yearlyLineSeries->clear();
+    yearlyLineSeries->append(QPoint(0, janExp));
+    yearlyLineSeries->append(QPoint(1, febExp));
+    yearlyLineSeries->append(QPoint(2, marExp));
+    yearlyLineSeries->append(QPoint(3, aprExp));
+    yearlyLineSeries->append(QPoint(4, mayExp));
+    yearlyLineSeries->append(QPoint(5, junExp));
+    yearlyLineSeries->append(QPoint(6, julExp));
+    yearlyLineSeries->append(QPoint(7, augExp));
+    yearlyLineSeries->append(QPoint(8, septExp));
+    yearlyLineSeries->append(QPoint(9, octExp));
+    yearlyLineSeries->append(QPoint(10, novExp));
+    yearlyLineSeries->append(QPoint(11, decExp));
+    monthsOfYear->replace(0, janExp);
+    monthsOfYear->replace(1, febExp);
+    monthsOfYear->replace(2, marExp);
+    monthsOfYear->replace(3, aprExp);
+    monthsOfYear->replace(4, mayExp);
+    monthsOfYear->replace(5, junExp);
+    monthsOfYear->replace(6, julExp);
+    monthsOfYear->replace(7, augExp);
+    monthsOfYear->replace(8, septExp);
+    monthsOfYear->replace(9, octExp);
+    monthsOfYear->replace(10, novExp);
+    monthsOfYear->replace(11, decExp);
+
+
 }
 
 // BudgetTarget destructor
@@ -302,26 +545,45 @@ BudgetTarget::~BudgetTarget() {
 }
 
 void BudgetTarget::AddRoot(QString Category, QString Amount) {
+    s.connectsql();
+    Amount = s.select(s.sql_query, "database", Category,2);
+    s.close();
+
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget);
     itm->setText(0,Category);
-    itm->setText(1,Amount);
+    s.connectsql();
+    QString Amount1 = s.select(s.sql_query, "database", Category,1);
+    s.close();
+    itm->setText(1,Amount1);
     itm->setText(2,Amount);
     ui->treeWidget->addTopLevelItem(itm);
 }
 
 void BudgetTarget::AddRoot_2(QString Category, QString Amount) {
+    s.connectsql1();
+    Amount = s.select(s.sql_query1, "database1", Category,2);
+    s.close();
+
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget_3);
     itm->setText(0,Category);
-    itm->setText(1,Amount);
-    itm->setText(2,Amount);
+    s.connectsql1();
+    QString Amount1 = s.select(s.sql_query1, "database1", Category, 1);
+    s.close();
+    itm->setText(1,Amount1);    itm->setText(2,Amount);
     ui->treeWidget_3->addTopLevelItem(itm);
 }
 
 void BudgetTarget::AddRoot_3(QString Category, QString Amount) {
+    s.connectsql2();
+    Amount = s.select(s.sql_query2, "database2", Category, 2);
+    s.close();
+
     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->treeWidget_6);
     itm->setText(0,Category);
-    itm->setText(1,Amount);
-    itm->setText(2,Amount);
+    s.connectsql2();
+    QString Amount1 = s.select(s.sql_query2, "database2", Category, 1);
+    s.close();
+    itm->setText(1,Amount1);    itm->setText(2,Amount);
     ui->treeWidget_7->addTopLevelItem(itm);
 }
 
@@ -352,31 +614,38 @@ void BudgetTarget::AddExpense_3(QString Category, QString Amount, QString Day) {
     ui->treeWidget_7->addTopLevelItem(itm);
 }
 
-void BudgetTarget::EditRoot(QString Amount) {
+QString BudgetTarget::EditRoot(QString Amount) {
     QString before = ui->treeWidget->currentItem()->text(1);
     QString before2 = ui->treeWidget->currentItem()->text(2);
     int diff = Amount.toInt()-before.toInt();
     int update = before2.toInt() + diff;
     ui->treeWidget->currentItem()->setData(1,Qt::DisplayRole,Amount);
     ui->treeWidget->currentItem()->setData(2,Qt::DisplayRole, update);
+    return ui->treeWidget->currentItem()->text(0);
+
 }
 
-void BudgetTarget::EditRoot_2(QString Amount) {
+QString BudgetTarget::EditRoot_2(QString Amount) {
     QString before = ui->treeWidget_3->currentItem()->text(1);
     QString before2 = ui->treeWidget_3->currentItem()->text(2);
     int diff = Amount.toInt()-before.toInt();
     int update = before2.toInt() + diff;
     ui->treeWidget_3->currentItem()->setData(1,Qt::DisplayRole,Amount);
     ui->treeWidget_3->currentItem()->setData(2,Qt::DisplayRole, update);
+    return ui->treeWidget_3->currentItem()->text(0);
+
 }
 
-void BudgetTarget::EditRoot_3(QString Amount) {
+QString BudgetTarget::EditRoot_3(QString Amount) {
     QString before = ui->treeWidget_6->currentItem()->text(1);
     QString before2 = ui->treeWidget_6->currentItem()->text(2);
     int diff = Amount.toInt()-before.toInt();
     int update = before2.toInt() + diff;
     ui->treeWidget_6->currentItem()->setData(1,Qt::DisplayRole,Amount);
     ui->treeWidget_6->currentItem()->setData(2,Qt::DisplayRole, update);
+
+    return ui->treeWidget_6->currentItem()->text(0);
+
 }
 
 void BudgetTarget::on_Edit_clicked() {
@@ -386,7 +655,11 @@ void BudgetTarget::on_Edit_clicked() {
         adddialog1.exec();
         QString amount = adddialog1.returnAmo();
         if(amount!=nullptr){
-            EditRoot(amount);
+            QString category = EditRoot(amount);
+            s.connectsql();
+            s.update(s.sql_query, "database",category, amount);
+            s.print(s.sql_query, "database");
+            s.close();
         }
     }
 }
@@ -398,7 +671,11 @@ void BudgetTarget::on_Edit_2_clicked() {
         adddialog1.exec();
         QString amount = adddialog1.returnAmo();
         if(amount!=nullptr){
-            EditRoot_2(amount);
+            QString category = EditRoot_2(amount);
+            s.connectsql1();
+            s.update(s.sql_query1, "database1",category, amount);
+            s.print(s.sql_query1, "database1");
+            s.close();
         }
     }
 
@@ -411,7 +688,11 @@ void BudgetTarget::on_Edit_4_clicked()
         adddialog1.exec();
         QString amount = adddialog1.returnAmo();
         if(amount!=nullptr){
-            EditRoot_3(amount);
+            QString category = EditRoot_3(amount);
+            s.connectsql2();
+            s.update(s.sql_query2, "database2",category, amount);
+            s.print(s.sql_query2, "database2");
+            s.close();
         }
     }
 }
@@ -429,6 +710,16 @@ void BudgetTarget::on_AddE_clicked() {
         QString before = ui->treeWidget->topLevelItem(addexpense.returnVal())->text(2);
         int update = before.toInt()-amount.toInt();
         ui->treeWidget->topLevelItem(addexpense.returnVal())->setData(2,Qt::DisplayRole,update);
+
+        qDebug() << cate << amount << day;
+        s.connectsql();
+        QString oldValue = s.select(s.sql_query, "database", cate,2);
+        QString oldExp = s.select(s.sql_query, "database", cate, dayList.indexOf(day)+3); // column for Monday
+
+        qDebug() << cate << oldValue << oldExp << amount << day << endl;
+        s.updateExpenditure(s.sql_query, "database", cate, oldValue, oldExp, amount, day);
+        s.close();
+
     }
     // convert the string to an int and add it to the corresponding date
     int amountInt = amount.toInt();
@@ -480,6 +771,13 @@ void BudgetTarget::on_AddE_2_clicked(){
         QString before = ui->treeWidget_3->topLevelItem(addexpense.returnVal())->text(2);
         int update = before.toInt()-amount.toInt();
         ui->treeWidget_3->topLevelItem(addexpense.returnVal())->setData(2,Qt::DisplayRole,update);
+        qDebug() << cate << amount << day;
+        s.connectsql1();
+        QString oldValue = s.select(s.sql_query1, "database1", cate,2);
+        QString oldExp = s.select(s.sql_query1, "database1", cate, dayList.indexOf(day)+3);
+
+        s.updateExpenditure(s.sql_query1, "database1", cate, oldValue, oldExp, amount, day);
+        s.close();
     }
     // convert the string to an int and add it to the corresponding date
     int amountInt = amount.toInt();
@@ -524,6 +822,14 @@ void BudgetTarget::on_AddE_3_clicked(){
         QString before = ui->treeWidget_6->topLevelItem(addexpense.returnVal())->text(2);
         int update = before.toInt()-amount.toInt();
         ui->treeWidget_6->topLevelItem(addexpense.returnVal())->setData(2,Qt::DisplayRole,update);
+
+        qDebug() << cate << amount << day;
+        s.connectsql2();
+        QString oldValue = s.select(s.sql_query2, "database2", cate,2);
+        QString oldExp = s.select(s.sql_query2, "database2", cate, addexpense.returnDay()+3);
+
+        s.updateExpenditure(s.sql_query2, "database2", cate, oldValue,oldExp, amount, day);
+        s.close();
     }
     // convert the string to an int and add it to the corresponding date
     int amountInt = amount.toInt();
@@ -584,39 +890,67 @@ void BudgetTarget::on_AddE_3_clicked(){
 void BudgetTarget::on_DeleteE_clicked(){
     if(ui->treeWidget_2->currentItem()!=nullptr){
 
-    QModelIndex index = ui->treeWidget_2->currentIndex();
-    QString category = ui->treeWidget_2->currentItem()->text(0);
-    int cateIndex = cateList.indexOf(category);
-    QString before = ui->treeWidget->topLevelItem(cateIndex)->text(2);
-    QString add = ui->treeWidget_2->currentItem()->text(1);
-    int update = before.toInt()+add.toInt();
-    ui->treeWidget->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
-    ui->treeWidget_2->takeTopLevelItem(index.row());
+        QModelIndex index = ui->treeWidget_2->currentIndex();
+        QString category = ui->treeWidget_2->currentItem()->text(0);
+        int cateIndex = cateList.indexOf(category);
+        QString before = ui->treeWidget->topLevelItem(cateIndex)->text(2);
+        QString add = ui->treeWidget_2->currentItem()->text(1);
+        QString day = ui->treeWidget_2->currentItem()->text(2);
+        int update = before.toInt()+add.toInt();
+        ui->treeWidget->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
+        ui->treeWidget_2->takeTopLevelItem(index.row());
+
+        s.connectsql();
+        QString oldValue = s.select(s.sql_query, "database", category,2);
+        QString amount = (QString)(add.toInt()*-1);
+        QString oldExp = s.select(s.sql_query, "database", category, dayList.indexOf(day)+3);
+        s.updateExpenditureD(s.sql_query, "database", category, oldValue, oldExp,add, day);
+
+        s.close();
     }
 }
 
 void BudgetTarget::on_DeleteE_2_clicked(){
     if(ui->treeWidget_4->currentItem()!=nullptr){
 
-    QModelIndex index = ui->treeWidget_4->currentIndex();
-    QString category = ui->treeWidget_4->currentItem()->text(0);
-    int cateIndex = cateList.indexOf(category);
-    QString before = ui->treeWidget_3->topLevelItem(cateIndex)->text(2);
-    QString add = ui->treeWidget_4->currentItem()->text(1);
-    int update = before.toInt()+add.toInt();
-    ui->treeWidget_3->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
-    ui->treeWidget_4->takeTopLevelItem(index.row());
+        QModelIndex index = ui->treeWidget_4->currentIndex();
+        QString category = ui->treeWidget_4->currentItem()->text(0);
+        int cateIndex = cateListM.indexOf(category);
+        QString before = ui->treeWidget_3->topLevelItem(cateIndex)->text(2);
+        QString add = ui->treeWidget_4->currentItem()->text(1);
+        int update = before.toInt()+add.toInt();
+        QString day = ui->treeWidget_4->currentItem()->text(2);
+        ui->treeWidget_3->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
+        ui->treeWidget_4->takeTopLevelItem(index.row());
+        s.connectsql1();
+        QString oldValue = s.select(s.sql_query1, "database1", category,2);
+        QString amount = (QString)(add.toInt()*-1);
+        QString oldExp = s.select(s.sql_query1, "database1", category, day.toInt()+3);
+        s.updateExpenditureD(s.sql_query1, "database1", category, oldValue, oldExp,add, day);
+
+        s.close();
+
     }
 }
 void BudgetTarget::on_DeleteE_3_clicked(){
     if(ui->treeWidget_7->currentItem()!=nullptr){
-    QModelIndex index = ui->treeWidget_7->currentIndex();
-    QString category = ui->treeWidget_7->currentItem()->text(0);
-    int cateIndex = cateListY.indexOf(category);
-    QString before = ui->treeWidget_6->topLevelItem(cateIndex)->text(2);
-    QString add = ui->treeWidget_7->currentItem()->text(1);
-    int update = before.toInt()+add.toInt();
-    ui->treeWidget_6->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
-    ui->treeWidget_7->takeTopLevelItem(index.row());
+        QModelIndex index = ui->treeWidget_7->currentIndex();
+        QString category = ui->treeWidget_7->currentItem()->text(0);
+        int cateIndex = cateListY.indexOf(category);
+        QString before = ui->treeWidget_6->topLevelItem(cateIndex)->text(2);
+        QString add = ui->treeWidget_7->currentItem()->text(1);
+        QString month = ui->treeWidget_7->currentItem()->text(2);
+
+        int update = before.toInt()+add.toInt();
+        ui->treeWidget_6->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
+        ui->treeWidget_7->takeTopLevelItem(index.row());
+
+        s.connectsql2();
+        QString oldValue = s.select(s.sql_query2, "database2", category,2);
+        QString amount = (QString)(add.toInt()*-1);
+        QString oldExp = s.select(s.sql_query2, "database2", category, dayListY.indexOf(month)+3);
+        s.updateExpenditureD(s.sql_query2, "database2", category, oldValue, oldExp,add, month);
+
+        s.close();
     }
 }
