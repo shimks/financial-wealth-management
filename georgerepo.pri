@@ -26,7 +26,9 @@ SOURCES += \
     $$PWD/src/addexpense.cpp \
     $$PWD/src/addexpensem.cpp \
     $$PWD/src/addexpensey.cpp \
-    $$PWD/src/sql.cpp
+    $$PWD/src/sql.cpp \
+    $$PWD/src/asset.cpp \
+    $$PWD/src/popup.cpp
 
 HEADERS += \
     $$PWD/src/mainwindow.h \
@@ -39,11 +41,16 @@ HEADERS += \
     $$PWD/src/addexpense.h \
     $$PWD/src/addexpensem.h \
     $$PWD/src/addexpensey.h \
-    $$PWD/src/sql.h
+    $$PWD/src/sql.h \
+    $$PWD/src/asset.h \
+    $$PWD/src/popup.h
 
 FORMS += \
 	$$PWD/src/adddialog.ui \
         $$PWD/src/budgettarget.ui \
         $$PWD/src/addexpense.ui \
         $$PWD/src/addexpensem.ui \
-        $$PWD/src/addexpensey.ui
+        $$PWD/src/addexpensey.ui \
+        $$PWD/src/addexpensey.ui \
+        $$PWD/src/asset.ui \
+        $$PWD/src/popup.ui

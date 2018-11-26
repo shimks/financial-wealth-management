@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     //open database
     if (!database.open())
     {
-        qDebug()<<"Errror: Failed to connect to database."<< database.lastError();
+        qDebug()<<"Error: Failed to connect to database."<< database.lastError();
     }
     else
     {
