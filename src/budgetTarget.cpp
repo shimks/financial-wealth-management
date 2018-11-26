@@ -915,7 +915,7 @@ void BudgetTarget::on_DeleteE_2_clicked(){
 
         QModelIndex index = ui->treeWidget_4->currentIndex();
         QString category = ui->treeWidget_4->currentItem()->text(0);
-        int cateIndex = cateList.indexOf(category);
+        int cateIndex = cateListM.indexOf(category);
         QString before = ui->treeWidget_3->topLevelItem(cateIndex)->text(2);
         QString add = ui->treeWidget_4->currentItem()->text(1);
         int update = before.toInt()+add.toInt();

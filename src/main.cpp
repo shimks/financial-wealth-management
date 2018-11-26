@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     {
         qDebug()<<"Succeed to connect to database.";
     }
+
     MainWindow w;
     w.show();
 
