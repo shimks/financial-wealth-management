@@ -6,6 +6,8 @@
 #include <QtGui>
 #include <QTreeWidgetItem>
 #include <QVector>
+#include <QtSql>
+#include <QtDebug>
 
 namespace Ui {
 class Asset;
@@ -24,6 +26,7 @@ public:
     explicit Asset(QWidget *parent = nullptr);
     ~Asset();
 
+
 private slots:
     void on_pushButton_clicked();
 
@@ -41,10 +44,16 @@ private:
     Ui::Asset *ui;
 
     //Global Variable
-     QVector<long> sumVector;
+     QVector<int> idVecAsset;   //Track the ID for Asset
+     int idNumAsset = 0;
+     QVector<long> sumVector;   //Tracks all Asset Values
+     QVector<QString> assetName;    //Track all Asset names
      long sum = 0;
 
-     QVector<long> LiabilityVector;
+     QVector<int> idVecLiability;      //Track the ID for Liabilitiy
+     int idNumLiability = 0;
+     QVector<long> LiabilityVector; //Tracks all Liabilitiy values
+     QVector<QString> LiabilityName;   //Track all Liability names
      long totalLiability = 0;
 
 };
