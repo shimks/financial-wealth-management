@@ -101,7 +101,11 @@ void sql::update(QSqlQuery* sql_query,QString db,QString gategory, QString amoun
 
 void sql::updateExpenditure(QSqlQuery* sql_query, QString db, QString gategory, QString old,QString oldExpense, QString amount, QString day)
 {
-    QString update_sql = QString("update %3 set Remaining = :Remaining, %1 = :%2 where Gategory = :Gategory").arg(day).arg(day).arg(db);
+    QString update_sql = QString("update %3 set Remaining = :Remaining, %1 = :%2 where Gategory = :Gategory")
+            .arg(day)
+//            .arg(oldExpense.toInt()+amount.toInt())
+            .arg(day)
+            .arg(db);
     sql_query->prepare(update_sql);
     sql_query->bindValue(":Remaining", old.toInt() - amount.toInt());
     sql_query->bindValue(QString(":%1").arg(day), oldExpense.toInt()+amount.toInt());

@@ -101,7 +101,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     chart->setAxisY(axisY, lineseries);
     chart->setAxisY(axisY, barseries);
     axisY->setRange(0, maxWeeklyVal + 100);
-    axisY->setTitleText("Exepensed Amount ($)");
+    axisY->setTitleText("Expensed Amount ($)");
 
     // add a legend to the weekly plot
     chart->legend()->setVisible(true);
@@ -714,8 +714,9 @@ void BudgetTarget::on_AddE_clicked() {
         qDebug() << cate << amount << day;
         s.connectsql();
         QString oldValue = s.select(s.sql_query, "database", cate,2);
-        QString oldExp = s.select(s.sql_query, "database", cate, dayList.indexOf(day)+3);
+        QString oldExp = s.select(s.sql_query, "database", cate, dayList.indexOf(day)+3); // column for Monday
 
+        qDebug() << cate << oldValue << oldExp << amount << day << endl;
         s.updateExpenditure(s.sql_query, "database", cate, oldValue, oldExp, amount, day);
         s.close();
 
@@ -912,25 +913,44 @@ void BudgetTarget::on_DeleteE_clicked(){
 void BudgetTarget::on_DeleteE_2_clicked(){
     if(ui->treeWidget_4->currentItem()!=nullptr){
 
-    QModelIndex index = ui->treeWidget_4->currentIndex();
-    QString category = ui->treeWidget_4->currentItem()->text(0);
-    int cateIndex = cateList.indexOf(category);
-    QString before = ui->treeWidget_3->topLevelItem(cateIndex)->text(2);
-    QString add = ui->treeWidget_4->currentItem()->text(1);
-    int update = before.toInt()+add.toInt();
-    ui->treeWidget_3->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
-    ui->treeWidget_4->takeTopLevelItem(index.row());
+        QModelIndex index = ui->treeWidget_4->currentIndex();
+        QString category = ui->treeWidget_4->currentItem()->text(0);
+        int cateIndex = cateList.indexOf(category);
+        QString before = ui->treeWidget_3->topLevelItem(cateIndex)->text(2);
+        QString add = ui->treeWidget_4->currentItem()->text(1);
+        int update = before.toInt()+add.toInt();
+        QString day = ui->treeWidget_4->currentItem()->text(2);
+        ui->treeWidget_3->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
+        ui->treeWidget_4->takeTopLevelItem(index.row());
+        s.connectsql1();
+        QString oldValue = s.select(s.sql_query1, "database1", category,2);
+        QString amount = (QString)(add.toInt()*-1);
+        QString oldExp = s.select(s.sql_query1, "database1", category, day.toInt()+3);
+        s.updateExpenditureD(s.sql_query1, "database1", category, oldValue, oldExp,add, day);
+
+        s.close();
+
     }
 }
 void BudgetTarget::on_DeleteE_3_clicked(){
     if(ui->treeWidget_7->currentItem()!=nullptr){
-    QModelIndex index = ui->treeWidget_7->currentIndex();
-    QString category = ui->treeWidget_7->currentItem()->text(0);
-    int cateIndex = cateListY.indexOf(category);
-    QString before = ui->treeWidget_6->topLevelItem(cateIndex)->text(2);
-    QString add = ui->treeWidget_7->currentItem()->text(1);
-    int update = before.toInt()+add.toInt();
-    ui->treeWidget_6->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
-    ui->treeWidget_7->takeTopLevelItem(index.row());
+        QModelIndex index = ui->treeWidget_7->currentIndex();
+        QString category = ui->treeWidget_7->currentItem()->text(0);
+        int cateIndex = cateListY.indexOf(category);
+        QString before = ui->treeWidget_6->topLevelItem(cateIndex)->text(2);
+        QString add = ui->treeWidget_7->currentItem()->text(1);
+        QString month = ui->treeWidget_7->currentItem()->text(2);
+
+        int update = before.toInt()+add.toInt();
+        ui->treeWidget_6->topLevelItem(cateIndex)->setData(2,Qt::DisplayRole,update);
+        ui->treeWidget_7->takeTopLevelItem(index.row());
+
+        s.connectsql2();
+        QString oldValue = s.select(s.sql_query2, "database2", category,2);
+        QString amount = (QString)(add.toInt()*-1);
+        QString oldExp = s.select(s.sql_query2, "database2", category, dayListY.indexOf(month)+3);
+        s.updateExpenditureD(s.sql_query2, "database2", category, oldValue, oldExp,add, month);
+
+        s.close();
     }
 }

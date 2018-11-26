@@ -25,7 +25,8 @@ SOURCES += \
     $$PWD/src/budgettarget.cpp \
     $$PWD/src/addexpense.cpp \
     $$PWD/src/addexpensem.cpp \
-    $$PWD/src/addexpensey.cpp
+    $$PWD/src/addexpensey.cpp \
+    $$PWD/src/sql.cpp
 
 HEADERS += \
     $$PWD/src/mainwindow.h \
@@ -37,7 +38,8 @@ HEADERS += \
     $$PWD/src/budgettarget.h \
     $$PWD/src/addexpense.h \
     $$PWD/src/addexpensem.h \
-    $$PWD/src/addexpensey.h
+    $$PWD/src/addexpensey.h \
+    $$PWD/src/sql.h
 
 FORMS += \
 	$$PWD/src/adddialog.ui \
