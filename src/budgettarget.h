@@ -139,6 +139,39 @@ private:
     QValueAxis *monthlyAxisY = new QValueAxis();
     QValueAxis *yearlyAxisX = new QValueAxis();
     QValueAxis *yearlyAxisY = new QValueAxis();
+
+    // initialize variables for the weekly pie chart
+    QPieSeries *weeklySeries = new QPieSeries();
+    QPieSeries *monSeries = new QPieSeries();
+    QPieSeries *tuesSeries = new QPieSeries();
+    QPieSeries *wedSeries = new QPieSeries();
+    QPieSeries *thursSeries = new QPieSeries();
+    QPieSeries *friSeries = new QPieSeries();
+    QPieSeries *satSeries = new QPieSeries();
+    QPieSeries *sunSeries = new QPieSeries();
+
+    // initialize variables for the monthly pie chart
+    QPieSeries *monthlySeries = new QPieSeries();
+    QPieSeries *week1Series = new QPieSeries();
+    QPieSeries *week2Series = new QPieSeries();
+    QPieSeries *week3Series = new QPieSeries();
+    QPieSeries *week4Series = new QPieSeries();
+    QPieSeries *week5Series = new QPieSeries();
+
+    // initialize variables for the yearly pie chart
+    QPieSeries *yearlySeries = new QPieSeries();
+    QPieSeries *janSeries = new QPieSeries();
+    QPieSeries *febSeries = new QPieSeries();
+    QPieSeries *marSeries = new QPieSeries();
+    QPieSeries *aprSeries = new QPieSeries();
+    QPieSeries *maySeries = new QPieSeries();
+    QPieSeries *junSeries = new QPieSeries();
+    QPieSeries *julSeries = new QPieSeries();
+    QPieSeries *augSeries = new QPieSeries();
+    QPieSeries *septSeries = new QPieSeries();
+    QPieSeries *octSeries = new QPieSeries();
+    QPieSeries *novSeries = new QPieSeries();
+    QPieSeries *decSeries = new QPieSeries();
 };
 
 #endif // BUDGETTARGET_H
