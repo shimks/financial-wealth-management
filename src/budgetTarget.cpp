@@ -265,25 +265,81 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
 
     // make a QPieSeries for each category within the day
     *monSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
-    *monSeries << new DrilldownSlice(tuesExpenses, "Tuesday", weeklySeries);
-    *monSeries << new DrilldownSlice(wedExpenses, "Wednesday", weeklySeries);
-    *monSeries << new DrilldownSlice(thursExpenses, "Pers", weeklySeries);
+    *monSeries << new DrilldownSlice(tuesExpenses, "Hygiene Products", weeklySeries);
+    *monSeries << new DrilldownSlice(wedExpenses, "Transportation", weeklySeries);
+    *monSeries << new DrilldownSlice(thursExpenses, "Personal", weeklySeries);
+    *monSeries << new DrilldownSlice(friExpenses, "Food", weeklySeries);
+    *monSeries << new DrilldownSlice(satExpenses, "School Supplies", weeklySeries);
 
-    // connect each series to the weekly pie chart
-    //QObject::connect(series, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    *tuesSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
+    *tuesSeries << new DrilldownSlice(tuesExpenses, "Hygiene Products", weeklySeries);
+    *tuesSeries << new DrilldownSlice(wedExpenses, "Transportation", weeklySeries);
+    *tuesSeries << new DrilldownSlice(thursExpenses, "Personal", weeklySeries);
+    *tuesSeries << new DrilldownSlice(friExpenses, "Food", weeklySeries);
+    *tuesSeries << new DrilldownSlice(satExpenses, "School Supplies", weeklySeries);
 
-    // create each slice for the weekly pie chart
-    //*monSeries << new DrilldownSlice(series->sum(), name, series);
+    *wedSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
+    *wedSeries << new DrilldownSlice(tuesExpenses, "Hygiene Products", weeklySeries);
+    *wedSeries << new DrilldownSlice(wedExpenses, "Transportation", weeklySeries);
+    *wedSeries << new DrilldownSlice(thursExpenses, "Personal", weeklySeries);
+    *wedSeries << new DrilldownSlice(friExpenses, "Food", weeklySeries);
+    *wedSeries << new DrilldownSlice(satExpenses, "School Supplies", weeklySeries);
+
+    *thursSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
+    *thursSeries << new DrilldownSlice(tuesExpenses, "Hygiene Products", weeklySeries);
+    *thursSeries << new DrilldownSlice(wedExpenses, "Transportation", weeklySeries);
+    *thursSeries << new DrilldownSlice(thursExpenses, "Personal", weeklySeries);
+    *thursSeries << new DrilldownSlice(friExpenses, "Food", weeklySeries);
+    *thursSeries << new DrilldownSlice(satExpenses, "School Supplies", weeklySeries);
+
+    *friSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
+    *friSeries << new DrilldownSlice(tuesExpenses, "Hygiene Products", weeklySeries);
+    *friSeries << new DrilldownSlice(wedExpenses, "Transportation", weeklySeries);
+    *friSeries << new DrilldownSlice(thursExpenses, "Personal", weeklySeries);
+    *friSeries << new DrilldownSlice(friExpenses, "Food", weeklySeries);
+    *friSeries << new DrilldownSlice(satExpenses, "School Supplies", weeklySeries);
+
+    *satSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
+    *satSeries << new DrilldownSlice(tuesExpenses, "Hygiene Products", weeklySeries);
+    *satSeries << new DrilldownSlice(wedExpenses, "Transportation", weeklySeries);
+    *satSeries << new DrilldownSlice(thursExpenses, "Personal", weeklySeries);
+    *satSeries << new DrilldownSlice(friExpenses, "Food", weeklySeries);
+    *satSeries << new DrilldownSlice(satExpenses, "School Supplies", weeklySeries);
+
+    *sunSeries << new DrilldownSlice(monExpenses, "Groceries", weeklySeries);
+    *sunSeries << new DrilldownSlice(tuesExpenses, "Hygiene Products", weeklySeries);
+    *sunSeries << new DrilldownSlice(wedExpenses, "Transportation", weeklySeries);
+    *sunSeries << new DrilldownSlice(thursExpenses, "Personal", weeklySeries);
+    *sunSeries << new DrilldownSlice(friExpenses, "Food", weeklySeries);
+    *sunSeries << new DrilldownSlice(satExpenses, "School Supplies", weeklySeries);
+
+    // make a QPieSeries for the week
+    *weeklySeries << new DrilldownSlice(monExpenses, "Monday", monSeries);
+    *weeklySeries << new DrilldownSlice(tuesExpenses, "Tuesday", tuesSeries);
+    *weeklySeries << new DrilldownSlice(wedExpenses, "Wednesday", wedSeries);
+    *weeklySeries << new DrilldownSlice(thursExpenses, "Thursday", thursSeries);
+    *weeklySeries << new DrilldownSlice(friExpenses, "Friday", friSeries);
+    *weeklySeries << new DrilldownSlice(satExpenses, "Saturday", satSeries);
 
 
-    //QObject::connect(weeklySeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    // connect each daily series to the weekly pie chart
+    QObject::connect(monSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    QObject::connect(tuesSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    QObject::connect(wedSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    QObject::connect(thursSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    QObject::connect(friSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    QObject::connect(satSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
+    QObject::connect(sunSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
 
-    //weeklyPieChart->changeSeries(weeklySeries);
+    // connected the weekly series to the pie chart
+    QObject::connect(weeklySeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
 
-    //QChartView *weeklyPieChartView = new QChartView(weeklyPieChart);
-    //weeklyPieChartView->setRenderHint(QPainter::Antialiasing);
+    weeklyPieChart->changeSeries(weeklySeries);
 
-    //ui->verticalLayout_9->addWidget(weeklyPieChartView);
+    QChartView *weeklyPieChartView = new QChartView(weeklyPieChart);
+    weeklyPieChartView->setRenderHint(QPainter::Antialiasing);
+
+    ui->verticalLayout_9->addWidget(weeklyPieChartView);
 
 /////////////////////////////// ADDING DEFAULT ITEMS TO  TREE WIDGETS /////////////////////////////////
 
