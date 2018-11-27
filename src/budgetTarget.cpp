@@ -233,12 +233,12 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     /* Creating the pi chart for the weekly expenses */
 
     DrilldownChart *weeklyPieChart = new DrilldownChart();
-    chart->setTheme(QChart::ChartThemeLight);
-    chart->setAnimationOptions(QChart::AllAnimations);
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignRight);
+    weeklyPieChart->setTheme(QChart::ChartThemeLight);
+    weeklyPieChart->setAnimationOptions(QChart::AllAnimations);
+    weeklyPieChart->legend()->setVisible(true);
+    weeklyPieChart->legend()->setAlignment(Qt::AlignRight);
 
-    weeklySeries->setName("Breakdon of Weekly Expenses by Day");
+    weeklySeries->setName("Breakdown of Weekly Expenses by Day");
 
     const QStringList weeklyCategories = {
         "Groceries", "Hygiene Products", "Transportation", "Personal", "Food", "School Supplies"
@@ -248,13 +248,13 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     };
 
     // make a QPieSeries for each day
-    monSeries->setName("Breakdown of daily expenses: Monday");
-    tuesSeries->setName("Breakdown of daily expenses: Tuesday");
-    wedSeries->setName("Breakdown of daily expenses: Wednesday");
-    thursSeries->setName("Breakdown of daily expenses: Thursday");
-    friSeries->setName("Breakdown of daily expenses: Friday");
-    satSeries->setName("Breakdown of daily expenses: Saturday");
-    sunSeries->setName("Breakdown of daily expenses: Sunday");
+    monSeries->setName("Breakdown of Daily Expenses: Monday");
+    tuesSeries->setName("Breakdown of Daily Expenses: Tuesday");
+    wedSeries->setName("Breakdown of Daily Expenses: Wednesday");
+    thursSeries->setName("Breakdown of Daily Expenses: Thursday");
+    friSeries->setName("Breakdown of Daily Expenses: Friday");
+    satSeries->setName("Breakdown of Daily Expenses: Saturday");
+    sunSeries->setName("Breakdown of Daily Expenses: Sunday");
 
     // make a QPieSeries for each category within the day
     *monSeries << new DrilldownSlice(1, "Groceries", weeklySeries);
@@ -307,13 +307,13 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     *sunSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
 
     // make a QPieSeries for the week
-    *weeklySeries << new DrilldownSlice(1, "Monday", monSeries);
-    *weeklySeries << new DrilldownSlice(0, "Tuesday", tuesSeries);
-    *weeklySeries << new DrilldownSlice(0, "Wednesday", wedSeries);
-    *weeklySeries << new DrilldownSlice(0, "Thursday", thursSeries);
-    *weeklySeries << new DrilldownSlice(0, "Friday", friSeries);
-    *weeklySeries << new DrilldownSlice(0, "Saturday", satSeries);
-    *weeklySeries << new DrilldownSlice(0, "Sunday", sunSeries);
+    *weeklySeries << new DrilldownSlice(1, "Mon", monSeries);
+    *weeklySeries << new DrilldownSlice(0, "Tues", tuesSeries);
+    *weeklySeries << new DrilldownSlice(0, "Wed", wedSeries);
+    *weeklySeries << new DrilldownSlice(0, "Thur", thursSeries);
+    *weeklySeries << new DrilldownSlice(0, "Fri", friSeries);
+    *weeklySeries << new DrilldownSlice(0, "Sat", satSeries);
+    *weeklySeries << new DrilldownSlice(0, "Sun", sunSeries);
 
     // connect each daily series to the weekly pie chart
     QObject::connect(monSeries, &QPieSeries::clicked, weeklyPieChart, &DrilldownChart::handleSliceClicked);
@@ -338,12 +338,12 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     /* Creating the pi chart for the monthly expenses */
 
     DrilldownChart *monthlyPieChart = new DrilldownChart();
-    chart->setTheme(QChart::ChartThemeLight);
-    chart->setAnimationOptions(QChart::AllAnimations);
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignRight);
+    monthlyPieChart->setTheme(QChart::ChartThemeLight);
+    monthlyPieChart->setAnimationOptions(QChart::AllAnimations);
+    monthlyPieChart->legend()->setVisible(true);
+    monthlyPieChart->legend()->setAlignment(Qt::AlignRight);
 
-    monthlySeries->setName("Breakdon of Monthly Expenses by Week");
+    monthlySeries->setName("Breakdown of Monthly Expenses by Week");
 
     const QStringList monthlyPieCategories = {
         "Phone Bill", "Utility Bill", "Rent/Lease/Loan", "Car Lease/Loan", "Credit Expenses", "Savings"
@@ -353,11 +353,11 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     };
 
     // make a QPieSeries for each day
-    week1Series->setName("Breakdown of monthly expenses: Week 1");
-    week2Series->setName("Breakdown of monthly expenses: Week 2");
-    week3Series->setName("Breakdown of monthly expenses: Week 3");
-    week4Series->setName("Breakdown of monthly expenses: Week 4");
-    week5Series->setName("Breakdown of monthly expenses: Week 5");
+    week1Series->setName("Breakdown of Monthly Expenses: Week 1");
+    week2Series->setName("Breakdown of Monthly Expenses: Week 2");
+    week3Series->setName("Breakdown of Monthly Expenses: Week 3");
+    week4Series->setName("Breakdown of Monthly Expenses: Week 4");
+    week5Series->setName("Breakdown of Monthly Expenses: Week 5");
 
     // make a QPieSeries for each category within the day
     *week1Series << new DrilldownSlice(1, "Phone Bill", weeklySeries);
@@ -396,11 +396,11 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     *week5Series << new DrilldownSlice(0, "Savings", weeklySeries);
 
     // make a QPieSeries for the week
-    *monthlySeries << new DrilldownSlice(1, "Week 1", week1Series);
-    *monthlySeries << new DrilldownSlice(0, "Week 2", week2Series);
-    *monthlySeries << new DrilldownSlice(0, "Week 3", week3Series);
-    *monthlySeries << new DrilldownSlice(0, "Week 4", week4Series);
-    *monthlySeries << new DrilldownSlice(0, "Week 5", week5Series);
+    *monthlySeries << new DrilldownSlice(1, "Wk 1", week1Series);
+    *monthlySeries << new DrilldownSlice(0, "Wk 2", week2Series);
+    *monthlySeries << new DrilldownSlice(0, "Wk 3", week3Series);
+    *monthlySeries << new DrilldownSlice(0, "Wk 4", week4Series);
+    *monthlySeries << new DrilldownSlice(0, "Wk 5", week5Series);
 
     // connect each daily series to the weekly pie chart
     QObject::connect(week1Series, &QPieSeries::clicked, monthlyPieChart, &DrilldownChart::handleSliceClicked);
@@ -438,18 +438,18 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     };
 
     // make a QPieSeries for each day
-    janSeries->setName("Breakdown of yearly expenses: January");
-    febSeries->setName("Breakdown of yearly expenses: February");
-    marSeries->setName("Breakdown of yearly expenses: March");
-    aprSeries->setName("Breakdown of yearly expenses: April");
-    maySeries->setName("Breakdown of yearly expenses: May");
-    junSeries->setName("Breakdown of yearly expenses: June");
-    julSeries->setName("Breakdown of yearly expenses: July");
-    augSeries->setName("Breakdown of yearly expenses: August");
-    septSeries->setName("Breakdown of yearly expenses: September");
-    octSeries->setName("Breakdown of yearly expenses: October");
-    novSeries->setName("Breakdown of yearly expenses: November");
-    decSeries->setName("Breakdown of yearly expenses: December");
+    janSeries->setName("Breakdown of Yearly Expenses: January");
+    febSeries->setName("Breakdown of Yearly Expenses: February");
+    marSeries->setName("Breakdown of Yearly Expenses: March");
+    aprSeries->setName("Breakdown of Yearly Expenses: April");
+    maySeries->setName("Breakdown of Yearly Expenses: May");
+    junSeries->setName("Breakdown of Yearly Expenses: June");
+    julSeries->setName("Breakdown of Yearly Expenses: July");
+    augSeries->setName("Breakdown of Yearly Expenses: August");
+    septSeries->setName("Breakdown of Yearly Expenses: September");
+    octSeries->setName("Breakdown of Yearly Expenses: October");
+    novSeries->setName("Breakdown of Yearly Expenses: November");
+    decSeries->setName("Breakdown of Yearly Expenses: December");
 
     // make a QPieSeries for each category within the day
     *janSeries << new DrilldownSlice(1, "Life Insurance", yearlySeries);
@@ -561,18 +561,18 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     *decSeries << new DrilldownSlice(0, "Tuition Fee", yearlySeries);
 
     // make a QPieSeries for the week
-    *yearlySeries << new DrilldownSlice(1, "January", janSeries);
-    *yearlySeries << new DrilldownSlice(0, "February", febSeries);
-    *yearlySeries << new DrilldownSlice(0, "March", marSeries);
-    *yearlySeries << new DrilldownSlice(0, "April", aprSeries);
+    *yearlySeries << new DrilldownSlice(1, "Jan", janSeries);
+    *yearlySeries << new DrilldownSlice(0, "Feb", febSeries);
+    *yearlySeries << new DrilldownSlice(0, "Mar", marSeries);
+    *yearlySeries << new DrilldownSlice(0, "Apr", aprSeries);
     *yearlySeries << new DrilldownSlice(0, "May", maySeries);
-    *yearlySeries << new DrilldownSlice(0, "June", junSeries);
-    *yearlySeries << new DrilldownSlice(0, "July", julSeries);
-    *yearlySeries << new DrilldownSlice(0, "August", augSeries);
-    *yearlySeries << new DrilldownSlice(0, "September", septSeries);
-    *yearlySeries << new DrilldownSlice(0, "October", octSeries);
-    *yearlySeries << new DrilldownSlice(0, "November", novSeries);
-    *yearlySeries << new DrilldownSlice(0, "December", decSeries);
+    *yearlySeries << new DrilldownSlice(0, "Jun", junSeries);
+    *yearlySeries << new DrilldownSlice(0, "Jul", julSeries);
+    *yearlySeries << new DrilldownSlice(0, "Aug", augSeries);
+    *yearlySeries << new DrilldownSlice(0, "Sept", septSeries);
+    *yearlySeries << new DrilldownSlice(0, "Oct", octSeries);
+    *yearlySeries << new DrilldownSlice(0, "Nov", novSeries);
+    *yearlySeries << new DrilldownSlice(0, "Dec", decSeries);
 
     // connect each daily series to the weekly pie chart
     QObject::connect(janSeries, &QPieSeries::clicked, yearlyPieChart, &DrilldownChart::handleSliceClicked);
@@ -628,7 +628,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
 
     // append weekly categories
     cateList << "Groceries";
-    cateList << "Hyginen Products";
+    cateList << "Hygiene Products";
     cateList << "Transportation";
     cateList << "Personal";
     cateList << "Food";
@@ -1099,6 +1099,22 @@ void BudgetTarget::on_AddE_clicked() {
         s.close();
 
     }
+
+    // find the index of the category chosen
+    int cateIndex;
+    if (cate == "Groceries")
+        cateIndex = 0;
+    else if (cate == "Hygiene Products")
+        cateIndex = 1;
+    else if (cate == "Transportation")
+        cateIndex = 2;
+    else if (cate == "Personal")
+        cateIndex = 3;
+    else if (cate == "Food")
+        cateIndex = 4;
+    else
+        cateIndex = 5;
+
     // convert the string to an int and add it to the corresponding date
     int amountInt = amount.toInt();
     int selectedIndex = addexpense.returnDay();
@@ -1119,6 +1135,91 @@ void BudgetTarget::on_AddE_clicked() {
         break;
         default : break;
     }
+
+    // create switch case to figure out which category was added to
+    switch(cateIndex) {
+    case 0 :
+        switch(selectedIndex) {
+        case 0:
+            monGrocery += amountInt;
+            break;
+        case 1:
+            tuesGrocery += amountInt;
+            break;
+        case 2:
+            wedGrocery += amountInt;
+            break;
+        case 3:
+            thursGrocery += amountInt;
+            break;
+        case 4:
+            friGrocery += amountInt;
+            break;
+        case 5:
+            satGrocery += amountInt;
+            break;
+        case 6:
+            sunGrocery += amountInt;
+            break;
+        }
+        break;
+    case 1:
+        switch(selectedIndex) {
+        case 0:
+            monHyg += amountInt;
+            break;
+        case 1:
+            tuesHyg += amountInt;
+            break;
+        case 2:
+            wedHyg += amountInt;
+            break;
+        case 3:
+            thursHyg += amountInt;
+            break;
+        case 4:
+            friHyg += amountInt;
+            break;
+        case 5:
+            satHyg += amountInt;
+            break;
+        case 6:
+            sunHyg += amountInt;
+            break;
+        }
+        break;
+    case 2:
+        switch(selectedIndex) {
+        case 0:
+            monTrans += amountInt;
+            break;
+        case 1:
+            tuesTrans += amountInt;
+            break;
+        case 2:
+            wedTrans += amountInt;
+            break;
+        case 3:
+            thursTrans += amountInt;
+            break;
+        case 4:
+            friTrans += amountInt;
+            break;
+        case 5:
+            satTrans += amountInt;
+            break;
+        case 6:
+            sunTrans += amountInt;
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
+
+
     lineseries->clear();
     lineseries->append(QPoint(0, monExpenses));
     lineseries->append(QPoint(1, tuesExpenses));
@@ -1137,13 +1238,70 @@ void BudgetTarget::on_AddE_clicked() {
 
     // clear the pie chart series and redistribute the slices
     weeklySeries->clear();
-    *weeklySeries << new DrilldownSlice(monExpenses, "Monday", monSeries);
-    *weeklySeries << new DrilldownSlice(tuesExpenses, "Tuesday", tuesSeries);
-    *weeklySeries << new DrilldownSlice(wedExpenses, "Wednesday", wedSeries);
-    *weeklySeries << new DrilldownSlice(thursExpenses, "Thursday", thursSeries);
-    *weeklySeries << new DrilldownSlice(friExpenses, "Friday", friSeries);
-    *weeklySeries << new DrilldownSlice(satExpenses, "Saturday", satSeries);
-    *weeklySeries << new DrilldownSlice(sunExpenses, "Sunday", sunSeries);
+    *weeklySeries << new DrilldownSlice(monExpenses, "Mon", monSeries);
+    *weeklySeries << new DrilldownSlice(tuesExpenses, "Tues", tuesSeries);
+    *weeklySeries << new DrilldownSlice(wedExpenses, "Wed", wedSeries);
+    *weeklySeries << new DrilldownSlice(thursExpenses, "Thur", thursSeries);
+    *weeklySeries << new DrilldownSlice(friExpenses, "Fri", friSeries);
+    *weeklySeries << new DrilldownSlice(satExpenses, "Sat", satSeries);
+    *weeklySeries << new DrilldownSlice(sunExpenses, "Sun", sunSeries);
+
+    // clear the pie charts for each category and redistribute the slices
+    monSeries->clear();
+    *monSeries << new DrilldownSlice(monGrocery, "Groceries", weeklySeries);
+    *monSeries << new DrilldownSlice(monHyg, "Hygiene Products", weeklySeries);
+    *monSeries << new DrilldownSlice(monTrans, "Transportation", weeklySeries);
+    *monSeries << new DrilldownSlice(0, "Personal", weeklySeries);
+    *monSeries << new DrilldownSlice(0, "Food", weeklySeries);
+    *monSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
+
+    tuesSeries->clear();
+    *tuesSeries << new DrilldownSlice(tuesGrocery, "Groceries", weeklySeries);
+    *tuesSeries << new DrilldownSlice(tuesHyg, "Hygiene Products", weeklySeries);
+    *tuesSeries << new DrilldownSlice(tuesTrans, "Transportation", weeklySeries);
+    *tuesSeries << new DrilldownSlice(0, "Personal", weeklySeries);
+    *tuesSeries << new DrilldownSlice(0, "Food", weeklySeries);
+    *tuesSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
+
+    wedSeries->clear();
+    *wedSeries << new DrilldownSlice(wedGrocery, "Groceries", weeklySeries);
+    *wedSeries << new DrilldownSlice(wedHyg, "Hygiene Products", weeklySeries);
+    *wedSeries << new DrilldownSlice(wedTrans, "Transportation", weeklySeries);
+    *wedSeries << new DrilldownSlice(0, "Personal", weeklySeries);
+    *wedSeries << new DrilldownSlice(0, "Food", weeklySeries);
+    *wedSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
+
+    thursSeries->clear();
+    *thursSeries << new DrilldownSlice(thursGrocery, "Groceries", weeklySeries);
+    *thursSeries << new DrilldownSlice(thursHyg, "Hygiene Products", weeklySeries);
+    *thursSeries << new DrilldownSlice(thursTrans, "Transportation", weeklySeries);
+    *thursSeries << new DrilldownSlice(0, "Personal", weeklySeries);
+    *thursSeries << new DrilldownSlice(0, "Food", weeklySeries);
+    *thursSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
+
+    friSeries->clear();
+    *friSeries << new DrilldownSlice(friGrocery, "Groceries", weeklySeries);
+    *friSeries << new DrilldownSlice(friHyg, "Hygiene Products", weeklySeries);
+    *friSeries << new DrilldownSlice(friTrans, "Transportation", weeklySeries);
+    *friSeries << new DrilldownSlice(0, "Personal", weeklySeries);
+    *friSeries << new DrilldownSlice(0, "Food", weeklySeries);
+    *friSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
+
+    satSeries->clear();
+    *satSeries << new DrilldownSlice(satGrocery, "Groceries", weeklySeries);
+    *satSeries << new DrilldownSlice(satHyg, "Hygiene Products", weeklySeries);
+    *satSeries << new DrilldownSlice(satTrans, "Transportation", weeklySeries);
+    *satSeries << new DrilldownSlice(0, "Personal", weeklySeries);
+    *satSeries << new DrilldownSlice(0, "Food", weeklySeries);
+    *satSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
+
+    sunSeries->clear();
+    *sunSeries << new DrilldownSlice(satGrocery, "Groceries", weeklySeries);
+    *sunSeries << new DrilldownSlice(satHyg, "Hygiene Products", weeklySeries);
+    *sunSeries << new DrilldownSlice(satTrans, "Transportation", weeklySeries);
+    *sunSeries << new DrilldownSlice(0, "Personal", weeklySeries);
+    *sunSeries << new DrilldownSlice(0, "Food", weeklySeries);
+    *sunSeries << new DrilldownSlice(0, "School Supplies", weeklySeries);
 
     // update the maximum bounding of the chart
     int axisVal = maxWeeklyVal;
@@ -1209,11 +1367,11 @@ void BudgetTarget::on_AddE_2_clicked(){
 
     // clear the pie chart series and redistribute the slices
     monthlySeries->clear();
-    *monthlySeries << new DrilldownSlice(week1, "Week 1", week1Series);
-    *monthlySeries << new DrilldownSlice(week2, "Week 2", week2Series);
-    *monthlySeries << new DrilldownSlice(week3, "Week 3", week3Series);
-    *monthlySeries << new DrilldownSlice(week4, "Week 5", week4Series);
-    *monthlySeries << new DrilldownSlice(extraDays, "Week 6", week5Series);
+    *monthlySeries << new DrilldownSlice(week1, "Wk 1", week1Series);
+    *monthlySeries << new DrilldownSlice(week2, "Wk 2", week2Series);
+    *monthlySeries << new DrilldownSlice(week3, "Wk 3", week3Series);
+    *monthlySeries << new DrilldownSlice(week4, "Wk 4", week4Series);
+    *monthlySeries << new DrilldownSlice(extraDays, "Wk 5", week5Series);
 }
 
 // yearly
@@ -1296,18 +1454,18 @@ void BudgetTarget::on_AddE_3_clicked(){
 
     // clear the pie chart series and redistribute the slices
     yearlySeries->clear();
-    *yearlySeries << new DrilldownSlice(janExp, "January", janSeries);
-    *yearlySeries << new DrilldownSlice(febExp, "Febrary", febSeries);
-    *yearlySeries << new DrilldownSlice(marExp, "March", marSeries);
-    *yearlySeries << new DrilldownSlice(aprExp, "April", aprSeries);
+    *yearlySeries << new DrilldownSlice(janExp, "Jan", janSeries);
+    *yearlySeries << new DrilldownSlice(febExp, "Feb", febSeries);
+    *yearlySeries << new DrilldownSlice(marExp, "Mar", marSeries);
+    *yearlySeries << new DrilldownSlice(aprExp, "Apr", aprSeries);
     *yearlySeries << new DrilldownSlice(mayExp, "May", maySeries);
-    *yearlySeries << new DrilldownSlice(junExp, "June", junSeries);
-    *yearlySeries << new DrilldownSlice(julExp, "July", julSeries);
-    *yearlySeries << new DrilldownSlice(augExp, "August", augSeries);
-    *yearlySeries << new DrilldownSlice(septExp, "September", septSeries);
-    *yearlySeries << new DrilldownSlice(octExp, "October", octSeries);
-    *yearlySeries << new DrilldownSlice(novExp, "November", novSeries);
-    *yearlySeries << new DrilldownSlice(decExp, "December", decSeries);
+    *yearlySeries << new DrilldownSlice(junExp, "Jun", junSeries);
+    *yearlySeries << new DrilldownSlice(julExp, "Jul", julSeries);
+    *yearlySeries << new DrilldownSlice(augExp, "Aug", augSeries);
+    *yearlySeries << new DrilldownSlice(septExp, "Sept", septSeries);
+    *yearlySeries << new DrilldownSlice(octExp, "Oct", octSeries);
+    *yearlySeries << new DrilldownSlice(novExp, "Nov", novSeries);
+    *yearlySeries << new DrilldownSlice(decExp, "Dec", decSeries);
 }
 
 void BudgetTarget::on_DeleteE_clicked(){

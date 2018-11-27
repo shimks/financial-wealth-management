@@ -172,6 +172,29 @@ private:
     QPieSeries *octSeries = new QPieSeries();
     QPieSeries *novSeries = new QPieSeries();
     QPieSeries *decSeries = new QPieSeries();
+
+    // define category expense vals for weekly
+    int monGrocery = 0;
+    int tuesGrocery = 0;
+    int wedGrocery = 0;
+    int thursGrocery = 0;
+    int friGrocery = 0;
+    int satGrocery = 0;
+    int sunGrocery = 0;
+    int monHyg = 0;
+    int tuesHyg = 0;
+    int wedHyg = 0;
+    int thursHyg = 0;
+    int friHyg = 0;
+    int satHyg = 0;
+    int sunHyg = 0;
+    int monTrans = 0;
+    int tuesTrans = 0;
+    int wedTrans = 0;
+    int thursTrans = 0;
+    int friTrans = 0;
+    int satTrans = 0;
+    int sunTrans = 0;
 };
 
 #endif // BUDGETTARGET_H
