@@ -20,3 +20,6 @@
 # Database files
 **/*.db
 .DS_Store
+
+# Icon resources
+**/*_resource.rc

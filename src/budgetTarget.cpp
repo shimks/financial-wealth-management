@@ -99,7 +99,7 @@ BudgetTarget::BudgetTarget(QWidget *parent) :
     axisX->append(categories);
     chart->setAxisX(axisX, lineseries);
     chart->setAxisX(axisX, barseries);
-    axisX->setRange(QString("Mon"), QString("Sat"));
+    axisX->setRange(QString("Mon"), QString("Sun"));
     axisX->setTitleText("Day of the Week");
 
     // create and format y-axis for weekly chart
